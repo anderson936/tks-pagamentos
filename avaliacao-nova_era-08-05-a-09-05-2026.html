@@ -227,18 +227,30 @@
     white-space: nowrap;
   }
 
-  /* ─── BLOCO COLAPSÁVEL ─── */
+  /* ─── BLOCO COLAPSÁVEL (v303.465: visual realçado, sem wrapper externo) ─── */
   .bl-header {
     cursor: pointer;
     user-select: none;
+    background: rgba(31, 111, 235, 0.08);
+    border-bottom: 1px solid transparent;
+    transition: all 0.15s;
   }
-  .bl-header:hover { background: #21262d; }
+  .bl-header:hover { background: rgba(31, 111, 235, 0.18); }
+  .bloco-dia.aberto .bl-header {
+    border-bottom-color: #30363d;
+    background: rgba(31, 111, 235, 0.12);
+  }
+  .bl-titulo {
+    font-weight: 600;
+  }
   .bl-seta {
-    color: #7d8590;
-    font-size: 10px;
+    color: #58a6ff;
+    font-size: 12px;
+    font-weight: 700;
     transition: transform 0.2s;
     margin-left: 8px;
   }
+  .bloco-dia.aberto .bl-seta { transform: rotate(180deg); }
   .bl-conteudo { display: none; }
   .bloco-dia.aberto .bl-conteudo { display: block; }
   .bl-pessoas { padding: 8px 12px 12px; }
@@ -431,10 +443,28 @@
   }
 
   .bloco-dia {
-    background: #161b22; border: 1px solid #30363d;
-    border-radius: 8px;
+    background: #161b22;
+    border: 1px solid rgba(88, 166, 255, 0.4);
+    border-radius: 10px;
     margin-bottom: 8px;
     overflow: hidden;
+  }
+  .bloco-dia:hover { border-color: rgba(88, 166, 255, 0.6); }
+  /* v303.465: subtítulo dos blocos individuais */
+  .blocos-do-dia-titulo {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    color: #58a6ff;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .blocos-do-dia-titulo .bdd-sub {
+    display: block;
+    color: #8b949e;
+    font-size: 11px;
+    font-weight: 400;
+    margin-top: 2px;
   }
   .bloco-dia.avaliacao-dia {
     background: rgba(31, 111, 235, 0.06);
@@ -468,21 +498,36 @@
   /* v303.458: SUPERVISÃO DO DIA destacada */
   .supervisao-dia {
     background: linear-gradient(135deg,
-      rgba(210, 153, 34, 0.1),
-      rgba(210, 153, 34, 0.04));
-    border: 2px solid rgba(210, 153, 34, 0.45);
-    border-radius: 10px;
-    padding: 14px;
-    margin-bottom: 10px;
-    box-shadow: 0 0 16px rgba(210, 153, 34, 0.12);
+      rgba(210, 153, 34, 0.18),
+      rgba(210, 153, 34, 0.06));
+    border: 2px solid rgba(210, 153, 34, 0.55);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 0 24px rgba(210, 153, 34, 0.18);
+    position: relative;
+  }
+  .sd-passo {
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    background: #d29922;
+    color: #0d1117;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    text-transform: uppercase;
   }
   .sd-titulo {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 800;
     color: #d29922;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.6px;
     margin-bottom: 4px;
+    margin-top: 4px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -495,89 +540,36 @@
     letter-spacing: 0;
   }
   .sd-aviso {
-    font-size: 12px;
+    font-size: 13px;
     color: #d29922;
-    font-style: italic;
-    margin-bottom: 10px;
-    opacity: 0.85;
+    margin-bottom: 12px;
+    opacity: 0.95;
+    font-weight: 500;
   }
   .sd-pessoas .pessoa-linha {
     border-color: rgba(210, 153, 34, 0.3);
-    background: rgba(210, 153, 34, 0.04);
+    background: rgba(210, 153, 34, 0.06);
   }
   .sd-pessoas .pessoa-linha:hover {
     border-color: #d29922;
-    background: rgba(210, 153, 34, 0.1);
+    background: rgba(210, 153, 34, 0.14);
+  }
+  /* v303.466: passos da avaliação do dia */
+  .passo-badge {
+    display: inline-block;
+    background: rgba(31, 111, 235, 0.2);
+    color: #58a6ff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
   }
 
-  /* v303.459: BOTÃO TOGGLE de avaliação individual
-     (escondido por padrão pra deixar o fluxo rápido) */
-  .individual-wrap {
-    margin-top: 4px;
-  }
-  .btn-individual {
-    width: 100%;
-    background: rgba(31, 111, 235, 0.08);
-    border: 1px dashed rgba(88, 166, 255, 0.5);
-    border-radius: 10px;
-    padding: 14px 16px;
-    cursor: pointer;
-    font-family: inherit;
-    color: #e6edf3;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.15s;
-    text-align: left;
-  }
-  .btn-individual:hover {
-    background: rgba(31, 111, 235, 0.15);
-    border-color: #58a6ff;
-    border-style: solid;
-  }
-  .btn-individual.aberto {
-    background: rgba(31, 111, 235, 0.15);
-    border-color: #58a6ff;
-    border-style: solid;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  .bi-icon { font-size: 22px; }
-  .bi-texto {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    line-height: 1.3;
-  }
-  .bi-texto strong {
-    color: #58a6ff;
-    font-size: 14px;
-    font-weight: 700;
-  }
-  .bi-sub {
-    font-size: 11px;
-    color: #8b949e;
-    margin-top: 2px;
-  }
-  .bi-seta {
-    color: #58a6ff;
-    font-size: 12px;
-    transition: transform 0.2s;
-  }
-  .btn-individual.aberto .bi-seta {
-    transform: rotate(180deg);
-  }
-  .individual-conteudo {
-    display: none;
-    border: 1px solid #58a6ff;
-    border-top: 0;
-    border-radius: 0 0 10px 10px;
-    padding: 10px;
-    background: rgba(31, 111, 235, 0.03);
-  }
-  .btn-individual.aberto + .individual-conteudo {
-    display: block;
-  }
+  /* v303.465: CSS antigo do botão "Avaliar toda equipe" REMOVIDO.
+     Os blocos agora aparecem direto, sem wrapper externo. */
 
   .bl-header {
     background: #1c2128;
@@ -878,6 +870,7 @@
           
 
           <div class="bloco-dia avaliacao-dia destaque">
+            
             <div class="ad-titulo">⭐ Avalie a equipe desse dia</div>
             <div class="ad-sub">
               Como foi o desempenho geral da equipe no dia
@@ -900,20 +893,17 @@
                          rows="2"></textarea>
           </div>
 
-          <div class="individual-wrap">
-            <button type="button" class="btn-individual"
-                     onclick="toggleIndividual(this)">
-              <span class="bi-icon">📋</span>
-              <span class="bi-texto">
-                <strong>Avaliar toda equipe individualmente</strong>
-                <span class="bi-sub">
-                  Opcional · 16 pessoas no dia
-                </span>
-              </span>
-              <span class="bi-seta">▼</span>
-            </button>
-            <div class="individual-conteudo">
-              
+          <!-- v303.465: blocos do dia diretamente (sem wrapper externo) -->
+          <div class="blocos-do-dia-titulo">
+            
+            📋 Avaliar individualmente
+            <span class="bdd-sub">
+              Opcional · 16 pessoas no dia · clica num horário pra abrir
+            </span>
+          </div>
+          <div class="blocos-do-dia"
+               data-total-pessoas="16">
+            
             <div class="bloco-dia">
               <div class="bl-header" onclick="toggleBloco(this)">
                 <div class="bl-titulo"><span class="bl-horario">⏰ 07:30</span> &nbsp;·&nbsp; <span class="bl-setor">OPERACIONAL</span> &nbsp;·&nbsp; <span class="bl-local">📍 PARQUE OLIMPICO</span></div>
@@ -1422,7 +1412,6 @@
               </div>
             </div>
             
-            </div>
           </div>
         </div>
         
@@ -1436,6 +1425,7 @@
           
 
           <div class="bloco-dia avaliacao-dia destaque">
+            
             <div class="ad-titulo">⭐ Avalie a equipe desse dia</div>
             <div class="ad-sub">
               Como foi o desempenho geral da equipe no dia
@@ -1458,20 +1448,17 @@
                          rows="2"></textarea>
           </div>
 
-          <div class="individual-wrap">
-            <button type="button" class="btn-individual"
-                     onclick="toggleIndividual(this)">
-              <span class="bi-icon">📋</span>
-              <span class="bi-texto">
-                <strong>Avaliar toda equipe individualmente</strong>
-                <span class="bi-sub">
-                  Opcional · 26 pessoas no dia
-                </span>
-              </span>
-              <span class="bi-seta">▼</span>
-            </button>
-            <div class="individual-conteudo">
-              
+          <!-- v303.465: blocos do dia diretamente (sem wrapper externo) -->
+          <div class="blocos-do-dia-titulo">
+            
+            📋 Avaliar individualmente
+            <span class="bdd-sub">
+              Opcional · 26 pessoas no dia · clica num horário pra abrir
+            </span>
+          </div>
+          <div class="blocos-do-dia"
+               data-total-pessoas="26">
+            
             <div class="bloco-dia">
               <div class="bl-header" onclick="toggleBloco(this)">
                 <div class="bl-titulo"><span class="bl-horario">⏰ 08:00</span> &nbsp;·&nbsp; <span class="bl-setor">OPARACIONAL</span> &nbsp;·&nbsp; <span class="bl-local">📍 PARQUE OLIMPICO</span></div>
@@ -2290,7 +2277,6 @@
               </div>
             </div>
             
-            </div>
           </div>
         </div>
         
