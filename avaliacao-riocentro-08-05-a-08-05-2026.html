@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliação — RIOCENTRO</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Roboto, Arial, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body { padding: 16px; max-width: 820px; margin: 0 auto; }
+
+  .topo { text-align: center; padding: 14px 0 6px; }
+  .topo-titulo {
+    font-size: 11px; color: #6e7681; letter-spacing: 3px;
+    font-weight: 600; text-transform: uppercase;
+  }
+  .topo-cliente {
+    font-size: 26px; font-weight: 800; color: #e6edf3;
+    margin-top: 8px; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .topo-cliente::after {
+    content: ""; display: block; width: 60px; height: 2px;
+    background: linear-gradient(90deg,
+      transparent, #e6edf3, transparent);
+    margin: 10px auto 6px; border-radius: 2px;
+  }
+  .topo-periodo {
+    font-size: 14px; color: #8b949e; margin-top: 4px; font-weight: 600;
+  }
+
+  .info-bar {
+    display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap; justify-content: center;
+    margin-top: 8px;
+  }
+  .info-pill {
+    background: #161b22; border: 1px solid #30363d;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 12px; color: #8b949e;
+  }
+  .oc-badge {
+    background: rgba(31, 111, 235, 0.15); color: #58a6ff;
+    border: 1px solid rgba(31, 111, 235, 0.3);
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+  }
+
+  .secao {
+    background: #161b22; border: 1px solid #30363d;
+    border-radius: 10px; padding: 16px;
+    margin: 14px 0;
+  }
+  .secao-titulo {
+    font-size: 14px; color: #58a6ff; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #30363d; padding-bottom: 8px;
+  }
+  .secao-desc {
+    font-size: 12px; color: #7d8590;
+    margin: 6px 0 12px; font-style: italic;
+  }
+  .secao.supervisao {
+    border-color: rgba(210, 153, 34, 0.4);
+  }
+  .secao.supervisao .secao-titulo { color: #d29922; }
+
+  /* Critérios */
+  .criterio {
+    padding: 10px 0;
+    border-bottom: 1px solid #21262d;
+  }
+  .criterio:last-child { border-bottom: 0; }
+  .crit-row {
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 12px;
+  }
+  .crit-info { flex: 1; min-width: 0; }
+  .crit-label {
+    font-size: 14px; color: #e6edf3; font-weight: 600;
+  }
+  .crit-desc {
+    font-size: 11px; color: #7d8590; display: block; margin-top: 2px;
+  }
+
+  /* Estrelas */
+  .estrelas-wrap { display: inline-flex; align-items: center; gap: 8px; }
+  .estrelas-wrap.centralizado {
+    display: block; text-align: center; margin: 12px 0;
+  }
+  .estrelas {
+    display: inline-flex; gap: 4px; user-select: none;
+  }
+  .star {
+    font-size: 24px; cursor: pointer; color: #30363d;
+    transition: color 0.15s, transform 0.1s;
+  }
+  .star:hover { transform: scale(1.15); }
+  .star.ativo { color: #d29922; }
+
+  /* ─── PESSOAS (lista compacta v303.457) ─── */
+  .pessoa-linha {
+    display: grid;
+    grid-template-columns: 28px 1fr auto auto auto;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .pessoa-linha:hover {
+    background: #1c2128;
+    border-color: #58a6ff;
+  }
+  .pessoa-linha.tem-nota {
+    border-color: rgba(63, 185, 80, 0.5);
+    background: rgba(63, 185, 80, 0.04);
+  }
+  .pessoa-linha.escondido { display: none; }
+
+  .pl-num {
+    color: #6e7681;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .pl-nome {
+    color: #e6edf3;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .p-cargo {
+    color: #8b949e;
+    font-size: 10px;
+    margin-left: 6px;
+    background: #21262d;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .pl-cpf {
+    color: #7d8590;
+    font-size: 11px;
+    font-family: "Consolas", monospace;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .rating-mini {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+  }
+  .rm-estrelas {
+    color: #d29922;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .rm-num {
+    color: #d29922;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    min-width: 24px;
+  }
+  .rating-mini.sem .rm-novo {
+    color: #58a6ff;
+    font-size: 10px;
+    background: rgba(31, 111, 235, 0.15);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  .pl-status {
+    color: #58a6ff;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    width: 18px;
+  }
+  .pessoa-linha.tem-nota .ps-icon::before {
+    content: "✓";
+    color: #3fb950;
+  }
+
+  /* ─── BUSCA POR BLOCO ─── */
+  .busca-bloco {
+    padding: 10px 12px 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .busca-input {
+    flex: 1;
+    min-width: 200px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #e6edf3;
+    font-family: inherit;
+    outline: none;
+  }
+  .busca-input:focus { border-color: #58a6ff; }
+  .busca-contador {
+    color: #7d8590;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* ─── BLOCO COLAPSÁVEL ─── */
+  .bl-header {
+    cursor: pointer;
+    user-select: none;
+  }
+  .bl-header:hover { background: #21262d; }
+  .bl-seta {
+    color: #7d8590;
+    font-size: 10px;
+    transition: transform 0.2s;
+    margin-left: 8px;
+  }
+  .bl-conteudo { display: none; }
+  .bloco-dia.aberto .bl-conteudo { display: block; }
+  .bl-pessoas { padding: 8px 12px 12px; }
+
+  /* ─── MODAL DE PESSOA (v303.457) ─── */
+  .modal-pessoa-back {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 150;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-pessoa-back.show { display: flex; }
+  .modal-pessoa {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 22px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .mp-header {
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+  .mp-nome {
+    font-size: 18px;
+    font-weight: 700;
+    color: #e6edf3;
+    line-height: 1.2;
+  }
+  .mp-cpf {
+    font-size: 12px;
+    color: #7d8590;
+    font-family: "Consolas", monospace;
+    margin-top: 4px;
+  }
+  .mp-cargo-badge {
+    display: inline-block;
+    background: #21262d;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #8b949e;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .mp-classif {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .mp-classif-label {
+    font-size: 10px;
+    color: #7d8590;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .mp-classif-estrelas {
+    color: #d29922;
+    font-size: 22px;
+    letter-spacing: 2px;
+  }
+  .mp-classif-num {
+    font-size: 16px;
+    color: #e6edf3;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .mp-classif-info {
+    font-size: 11px;
+    color: #7d8590;
+    margin-top: 2px;
+  }
+  .mp-novo {
+    background: rgba(31, 111, 235, 0.1);
+    border-color: rgba(31, 111, 235, 0.3);
+    color: #58a6ff;
+    padding: 14px;
+  }
+  .mp-form-titulo {
+    font-size: 12px;
+    color: #58a6ff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .mp-estrelas-wrap {
+    text-align: center;
+    margin: 12px 0;
+  }
+  .mp-estrelas .star { font-size: 30px; }
+  .mp-acoes {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .mp-acoes button {
+    flex: 1;
+    padding: 11px;
+    border: 0;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: inherit;
+  }
+  .mp-cancelar {
+    background: #30363d;
+    color: #e6edf3;
+  }
+  .mp-salvar {
+    background: #1f6feb;
+    color: white;
+  }
+  .mp-salvar:hover { background: #388bfd; }
+  .mp-cancelar:hover { background: #3d444c; }
+
+  .coment-pessoa, .coment-dia {
+    width: 100%; background: #161b22;
+    border: 1px solid #30363d; border-radius: 6px;
+    padding: 10px 12px; color: #e6edf3;
+    font-family: inherit; font-size: 13px;
+    resize: vertical; outline: none;
+    transition: border 0.15s; line-height: 1.5;
+  }
+  textarea, input[type=text] {
+    width: 100%; background: #161b22;
+    border: 1px solid #30363d; border-radius: 6px;
+    padding: 10px 12px; color: #e6edf3;
+    font-family: inherit; font-size: 13px;
+    resize: vertical; outline: none;
+    transition: border 0.15s; line-height: 1.5;
+  }
+  textarea:focus, input:focus,
+  .coment-pessoa:focus, .coment-dia:focus {
+    border-color: #58a6ff;
+  }
+  textarea::placeholder, input::placeholder { color: #6e7681; }
+
+  /* DIAS */
+  .dia-secao {
+    margin-bottom: 18px;
+  }
+  .dia-titulo {
+    background: linear-gradient(90deg, #1f6feb, #1f6feb 40%, transparent);
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid #58a6ff;
+  }
+  .dt-data {
+    font-size: 16px; font-weight: 800; color: #fff;
+    margin-right: 8px;
+  }
+  .dt-extenso {
+    font-size: 12px; color: rgba(255,255,255,0.85);
+    text-transform: lowercase;
+  }
+
+  .bloco-dia {
+    background: #161b22; border: 1px solid #30363d;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .bloco-dia.avaliacao-dia {
+    background: rgba(31, 111, 235, 0.06);
+    border-color: rgba(31, 111, 235, 0.3);
+    text-align: center;
+    padding: 14px 16px;
+  }
+  .bloco-dia.avaliacao-dia.destaque {
+    background: linear-gradient(135deg,
+      rgba(31, 111, 235, 0.1),
+      rgba(210, 153, 34, 0.08));
+    border: 2px solid rgba(210, 153, 34, 0.4);
+    box-shadow: 0 0 20px rgba(210, 153, 34, 0.1);
+    padding: 18px 16px;
+  }
+  .ad-titulo {
+    font-size: 14px; color: #58a6ff;
+    font-weight: 800; margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+  .ad-sub {
+    font-size: 12px;
+    color: #8b949e;
+    margin-bottom: 10px;
+  }
+  /* Estrelas grandes pra destaque */
+  .estrelas.grandes .star {
+    font-size: 32px;
+  }
+
+  /* v303.458: SUPERVISÃO DO DIA destacada */
+  .supervisao-dia {
+    background: linear-gradient(135deg,
+      rgba(210, 153, 34, 0.1),
+      rgba(210, 153, 34, 0.04));
+    border: 2px solid rgba(210, 153, 34, 0.45);
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 16px rgba(210, 153, 34, 0.12);
+  }
+  .sd-titulo {
+    font-size: 13px;
+    font-weight: 800;
+    color: #d29922;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sd-info {
+    font-size: 11px;
+    color: #8b949e;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .sd-aviso {
+    font-size: 12px;
+    color: #d29922;
+    font-style: italic;
+    margin-bottom: 10px;
+    opacity: 0.85;
+  }
+  .sd-pessoas .pessoa-linha {
+    border-color: rgba(210, 153, 34, 0.3);
+    background: rgba(210, 153, 34, 0.04);
+  }
+  .sd-pessoas .pessoa-linha:hover {
+    border-color: #d29922;
+    background: rgba(210, 153, 34, 0.1);
+  }
+
+  /* v303.459: BOTÃO TOGGLE de avaliação individual
+     (escondido por padrão pra deixar o fluxo rápido) */
+  .individual-wrap {
+    margin-top: 4px;
+  }
+  .btn-individual {
+    width: 100%;
+    background: rgba(31, 111, 235, 0.08);
+    border: 1px dashed rgba(88, 166, 255, 0.5);
+    border-radius: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    font-family: inherit;
+    color: #e6edf3;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .btn-individual:hover {
+    background: rgba(31, 111, 235, 0.15);
+    border-color: #58a6ff;
+    border-style: solid;
+  }
+  .btn-individual.aberto {
+    background: rgba(31, 111, 235, 0.15);
+    border-color: #58a6ff;
+    border-style: solid;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .bi-icon { font-size: 22px; }
+  .bi-texto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+  }
+  .bi-texto strong {
+    color: #58a6ff;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .bi-sub {
+    font-size: 11px;
+    color: #8b949e;
+    margin-top: 2px;
+  }
+  .bi-seta {
+    color: #58a6ff;
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+  .btn-individual.aberto .bi-seta {
+    transform: rotate(180deg);
+  }
+  .individual-conteudo {
+    display: none;
+    border: 1px solid #58a6ff;
+    border-top: 0;
+    border-radius: 0 0 10px 10px;
+    padding: 10px;
+    background: rgba(31, 111, 235, 0.03);
+  }
+  .btn-individual.aberto + .individual-conteudo {
+    display: block;
+  }
+
+  .bl-header {
+    background: #1c2128;
+    padding: 10px 14px;
+    display: flex; justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .bl-titulo {
+    font-size: 13px; color: #e6edf3; font-weight: 600;
+  }
+  .bl-horario { color: #58a6ff; font-weight: 700; }
+  .bl-setor { color: #d29922; }
+  .bl-local { color: #8b949e; }
+  .bl-qt {
+    font-size: 11px; color: #7d8590;
+    background: #0d1117; padding: 2px 8px;
+    border-radius: 12px;
+  }
+  .bl-pessoas { padding: 8px; }
+
+  .vazio {
+    text-align: center; color: #7d8590;
+    padding: 20px; font-style: italic;
+  }
+
+  /* Botões */
+  .botoes-final {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 24px 0 16px;
+  }
+  .btn-acao {
+    padding: 14px 20px;
+    border: 0; border-radius: 10px;
+    font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    color: white;
+    transition: filter 0.15s, transform 0.1s;
+  }
+  .btn-acao:hover { filter: brightness(1.1); }
+  .btn-acao:active { transform: scale(0.98); }
+  .btn-copiar { background: #1f6feb; }
+  .btn-whats { background: #25d366; }
+
+  /* Modal de resultado */
+  .modal-back {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 100;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-back.show { display: flex; }
+  .modal {
+    background: #161b22; border: 1px solid #30363d;
+    border-radius: 12px; padding: 22px;
+    max-width: 540px; width: 100%;
+    max-height: 80vh; overflow-y: auto;
+  }
+  .modal h3 { color: #3fb950; font-size: 16px; margin-bottom: 6px; }
+  .modal p { font-size: 13px; color: #8b949e; margin-bottom: 12px; }
+  .resultado-area {
+    background: #0d1117; border: 1px solid #30363d;
+    border-radius: 6px; padding: 12px;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 11px; max-height: 200px; overflow-y: auto;
+    color: #e6edf3; user-select: text;
+    white-space: pre-wrap;
+  }
+  .modal-acoes { display: flex; gap: 8px; margin-top: 14px; }
+  .modal-acoes button {
+    flex: 1; padding: 10px;
+    background: #30363d; border: 0; color: #e6edf3;
+    border-radius: 6px; cursor: pointer; font-size: 13px;
+    font-family: inherit; font-weight: 600;
+  }
+  .modal-acoes button:hover { background: #3d444c; }
+  .modal-acoes .primario { background: #1f6feb; }
+  .modal-acoes .primario:hover { background: #388bfd; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1f6feb; color: white;
+    padding: 12px 20px; border-radius: 8px;
+    font-size: 14px; font-weight: 600;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .footer-info {
+    text-align: center; padding: 18px 0 8px;
+    font-size: 11px; color: #484f58;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 8px; }
+    .topo-cliente { font-size: 20px; }
+    .topo-periodo { font-size: 13px; }
+    .secao { padding: 12px; }
+    .crit-row {
+      flex-direction: column; align-items: flex-start; gap: 8px;
+    }
+    .estrelas .star { font-size: 26px; }
+    .botoes-final { grid-template-columns: 1fr; }
+    .pessoa-form { padding-left: 14px; }
+    .dt-extenso { display: block; margin-top: 2px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="topo-titulo">⭐ AVALIAÇÃO DE PEDIDO</div>
+  <div class="topo-cliente">RIOCENTRO</div>
+  <div class="topo-periodo">08/05/2026</div>
+  <div class="info-bar">
+    
+    <span class="info-pill">📅 1 dia</span>
+    <span class="info-pill">👥 4 pessoas</span>
+    <span class="info-pill">📋 1 bloco</span>
+  </div>
+  <div style="text-align:center;margin-top:8px;font-size:12px;color:#8b949e;">OPARACIONAL · RIOCENTRO</div>
+</div>
+
+<!-- ─── 1. Avaliação Geral do Atendimento ─── -->
+<div class="secao">
+  <div class="secao-titulo">⭐ Avaliação Geral do Atendimento</div>
+  <p class="secao-desc">
+    Como você avalia o atendimento da nossa equipe no pedido todo?
+  </p>
+  
+    <div class="criterio">
+      <div class="crit-row">
+        <div class="crit-info">
+          <div class="crit-label">Nota Geral</div>
+          <span class="crit-desc">Impressão geral sobre o serviço prestado</span>
+        </div>
+        <div class="estrelas-wrap">
+          <div class="estrelas" data-target="nota_geral">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <input type="hidden" id="nota_geral" value="0">
+        </div>
+      </div>
+    </div>
+    
+  
+    <div class="criterio">
+      <div class="crit-row">
+        <div class="crit-info">
+          <div class="crit-label">Atendimento</div>
+          <span class="crit-desc">Cortesia, simpatia, prontidão</span>
+        </div>
+        <div class="estrelas-wrap">
+          <div class="estrelas" data-target="nota_atendimento">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <input type="hidden" id="nota_atendimento" value="0">
+        </div>
+      </div>
+    </div>
+    
+  
+    <div class="criterio">
+      <div class="crit-row">
+        <div class="crit-info">
+          <div class="crit-label">Uniforme / Apresentação</div>
+          <span class="crit-desc">Roupa, higiene, postura visual</span>
+        </div>
+        <div class="estrelas-wrap">
+          <div class="estrelas" data-target="nota_uniforme">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <input type="hidden" id="nota_uniforme" value="0">
+        </div>
+      </div>
+    </div>
+    
+  
+    <div class="criterio">
+      <div class="crit-row">
+        <div class="crit-info">
+          <div class="crit-label">Pontualidade</div>
+          <span class="crit-desc">Equipe chegou no horário?</span>
+        </div>
+        <div class="estrelas-wrap">
+          <div class="estrelas" data-target="nota_pontualidade">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <input type="hidden" id="nota_pontualidade" value="0">
+        </div>
+      </div>
+    </div>
+    
+  
+    <div class="criterio">
+      <div class="crit-row">
+        <div class="crit-info">
+          <div class="crit-label">Postura / Comportamento</div>
+          <span class="crit-desc">Educação, profissionalismo</span>
+        </div>
+        <div class="estrelas-wrap">
+          <div class="estrelas" data-target="nota_postura">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <input type="hidden" id="nota_postura" value="0">
+        </div>
+      </div>
+    </div>
+    
+  
+    <div class="criterio">
+      <div class="crit-row">
+        <div class="crit-info">
+          <div class="crit-label">Organização</div>
+          <span class="crit-desc">Coordenação, fluidez</span>
+        </div>
+        <div class="estrelas-wrap">
+          <div class="estrelas" data-target="nota_organizacao">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <input type="hidden" id="nota_organizacao" value="0">
+        </div>
+      </div>
+    </div>
+    
+  
+    <div class="criterio">
+      <div class="crit-row">
+        <div class="crit-info">
+          <div class="crit-label">Comunicação</div>
+          <span class="crit-desc">Clareza nas informações</span>
+        </div>
+        <div class="estrelas-wrap">
+          <div class="estrelas" data-target="nota_comunicacao">
+            <span class="star" data-v="1">★</span>
+            <span class="star" data-v="2">★</span>
+            <span class="star" data-v="3">★</span>
+            <span class="star" data-v="4">★</span>
+            <span class="star" data-v="5">★</span>
+          </div>
+          <input type="hidden" id="nota_comunicacao" value="0">
+        </div>
+      </div>
+    </div>
+    
+</div>
+
+<!-- ─── 2. Supervisão ─── -->
+
+
+<!-- ─── 3. Avaliação por DIA + Individual ─── -->
+<div class="secao">
+  <div class="secao-titulo">📅 Avaliação por dia & Equipe</div>
+  <p class="secao-desc">
+    Avalie a equipe de cada dia. Clique em qualquer pessoa pra
+    avaliar individualmente (opcional).
+  </p>
+  
+        <div class="dia-secao" data-dia="2026-05-08">
+          <div class="dia-titulo">
+            <span class="dt-data">08/05/2026</span>
+            <span class="dt-extenso">SEXTA-FEIRA, 08 DE MAIO DE 2026</span>
+          </div>
+
+          
+
+          <div class="bloco-dia avaliacao-dia destaque">
+            <div class="ad-titulo">⭐ Avalie a equipe desse dia</div>
+            <div class="ad-sub">
+              Como foi o desempenho geral da equipe no dia
+              08/05/2026?
+            </div>
+            <div class="estrelas-wrap centralizado">
+              <div class="estrelas grandes" data-target="nota-dia-0">
+                <span class="star" data-v="1">★</span>
+                <span class="star" data-v="2">★</span>
+                <span class="star" data-v="3">★</span>
+                <span class="star" data-v="4">★</span>
+                <span class="star" data-v="5">★</span>
+              </div>
+              <input type="hidden" id="nota-dia-0"
+                      data-data="2026-05-08" value="0">
+            </div>
+            <textarea class="coment-dia" id="coment-dia-0"
+                         data-data="2026-05-08"
+                         placeholder="Comentário sobre esse dia (opcional)"
+                         rows="2"></textarea>
+          </div>
+
+          <div class="individual-wrap">
+            <button type="button" class="btn-individual"
+                     onclick="toggleIndividual(this)">
+              <span class="bi-icon">📋</span>
+              <span class="bi-texto">
+                <strong>Avaliar toda equipe individualmente</strong>
+                <span class="bi-sub">
+                  Opcional · 4 pessoas no dia
+                </span>
+              </span>
+              <span class="bi-seta">▼</span>
+            </button>
+            <div class="individual-conteudo">
+              
+            <div class="bloco-dia aberto">
+              <div class="bl-header" onclick="toggleBloco(this)">
+                <div class="bl-titulo"><span class="bl-horario">⏰ 07:30</span> &nbsp;·&nbsp; <span class="bl-setor">OPARACIONAL</span> &nbsp;·&nbsp; <span class="bl-local">📍 RIOCENTRO</span></div>
+                <span class="bl-qt">4 pessoas</span>
+                <span class="bl-seta">▼</span>
+              </div>
+              <div class="bl-conteudo">
+                
+                <div class="bl-pessoas">
+    <div class="pessoa-linha"
+          data-id="d0-b0-p0-0"
+          data-nome="CARLOS RODRIGUES F. NETO"
+          data-cpf="17627807719"
+          data-cargo="AUX"
+          data-media="0"
+          data-total="0"
+          data-estrelas="—"
+          data-prefixo="d0-b0-p0"
+          data-search="carlos rodrigues f. neto 17627807719"
+          onclick="abrirModalPessoa(this)">
+      <span class="pl-num">01</span>
+      <span class="pl-nome">CARLOS RODRIGUES F. NETO<span class="p-cargo">AUX</span></span>
+      <span class="pl-cpf">17627807719</span>
+      <div class="rating-mini sem"><span class="rm-novo">novo</span></div>
+      <span class="pl-status" id="status-d0-b0-p0-0">
+        <span class="ps-icon">›</span>
+      </span>
+      <input type="hidden" id="d0-b0-p0-0"
+              data-nome="CARLOS RODRIGUES F. NETO"
+              data-cpf="17627807719"
+              data-prefixo="d0-b0-p0"
+              value="0">
+      <input type="hidden" id="comp-d0-b0-p0-0"
+              data-prefixo="d0-b0-p0"
+              value="">
+    </div>
+    
+    <div class="pessoa-linha"
+          data-id="d0-b0-p1-1"
+          data-nome="JOAO PEDRO F. M. PEREIRA"
+          data-cpf="15561440756"
+          data-cargo="TRENING"
+          data-media="0"
+          data-total="0"
+          data-estrelas="—"
+          data-prefixo="d0-b0-p1"
+          data-search="joao pedro f. m. pereira 15561440756"
+          onclick="abrirModalPessoa(this)">
+      <span class="pl-num">02</span>
+      <span class="pl-nome">JOAO PEDRO F. M. PEREIRA<span class="p-cargo">TRENING</span></span>
+      <span class="pl-cpf">15561440756</span>
+      <div class="rating-mini sem"><span class="rm-novo">novo</span></div>
+      <span class="pl-status" id="status-d0-b0-p1-1">
+        <span class="ps-icon">›</span>
+      </span>
+      <input type="hidden" id="d0-b0-p1-1"
+              data-nome="JOAO PEDRO F. M. PEREIRA"
+              data-cpf="15561440756"
+              data-prefixo="d0-b0-p1"
+              value="0">
+      <input type="hidden" id="comp-d0-b0-p1-1"
+              data-prefixo="d0-b0-p1"
+              value="">
+    </div>
+    
+    <div class="pessoa-linha"
+          data-id="d0-b0-p2-2"
+          data-nome="PEDRO HENRIQUE C. SILVA"
+          data-cpf="20002787792"
+          data-cargo=""
+          data-media="0"
+          data-total="0"
+          data-estrelas="—"
+          data-prefixo="d0-b0-p2"
+          data-search="pedro henrique c. silva 20002787792"
+          onclick="abrirModalPessoa(this)">
+      <span class="pl-num">03</span>
+      <span class="pl-nome">PEDRO HENRIQUE C. SILVA</span>
+      <span class="pl-cpf">20002787792</span>
+      <div class="rating-mini sem"><span class="rm-novo">novo</span></div>
+      <span class="pl-status" id="status-d0-b0-p2-2">
+        <span class="ps-icon">›</span>
+      </span>
+      <input type="hidden" id="d0-b0-p2-2"
+              data-nome="PEDRO HENRIQUE C. SILVA"
+              data-cpf="20002787792"
+              data-prefixo="d0-b0-p2"
+              value="0">
+      <input type="hidden" id="comp-d0-b0-p2-2"
+              data-prefixo="d0-b0-p2"
+              value="">
+    </div>
+    
+    <div class="pessoa-linha"
+          data-id="d0-b0-p3-3"
+          data-nome="REINAN N. SANTOS"
+          data-cpf="10560621779"
+          data-cargo=""
+          data-media="0"
+          data-total="0"
+          data-estrelas="—"
+          data-prefixo="d0-b0-p3"
+          data-search="reinan n. santos 10560621779"
+          onclick="abrirModalPessoa(this)">
+      <span class="pl-num">04</span>
+      <span class="pl-nome">REINAN N. SANTOS</span>
+      <span class="pl-cpf">10560621779</span>
+      <div class="rating-mini sem"><span class="rm-novo">novo</span></div>
+      <span class="pl-status" id="status-d0-b0-p3-3">
+        <span class="ps-icon">›</span>
+      </span>
+      <input type="hidden" id="d0-b0-p3-3"
+              data-nome="REINAN N. SANTOS"
+              data-cpf="10560621779"
+              data-prefixo="d0-b0-p3"
+              value="0">
+      <input type="hidden" id="comp-d0-b0-p3-3"
+              data-prefixo="d0-b0-p3"
+              value="">
+    </div>
+    </div>
+              </div>
+            </div>
+            
+            </div>
+          </div>
+        </div>
+        
+</div>
+
+<!-- ─── 4. Comentários Finais ─── -->
+<div class="secao">
+  <div class="secao-titulo">💬 Comentários Finais</div>
+
+  <div style="margin-bottom: 12px;">
+    <label style="font-size:13px;color:#7d8590;display:block;margin-bottom:4px;">
+      ✓ Pontos positivos / destaques
+    </label>
+    <textarea id="pontos_positivos" rows="3"
+                placeholder="O que foi bom no atendimento..."></textarea>
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    <label style="font-size:13px;color:#7d8590;display:block;margin-bottom:4px;">
+      ⚠ Pontos a melhorar
+    </label>
+    <textarea id="pontos_melhorar" rows="3"
+                placeholder="Sugestões pra próximos eventos..."></textarea>
+  </div>
+
+  <div>
+    <label style="font-size:13px;color:#7d8590;display:block;margin-bottom:4px;">
+      📝 Comentário geral (opcional)
+    </label>
+    <textarea id="comentario_geral" rows="3"
+                placeholder="Outras observações..."></textarea>
+  </div>
+
+  <div style="margin-top: 14px;">
+    <label style="font-size:13px;color:#7d8590;display:block;margin-bottom:4px;">
+      Seu nome
+    </label>
+    <input type="text" id="avaliado_por"
+            placeholder="Ex: João da Silva — RH Cliente">
+  </div>
+</div>
+
+<div class="botoes-final">
+  <button class="btn-acao btn-copiar" onclick="enviarAvaliacao('copiar')">
+    📋 Copiar Resultado
+  </button>
+  <button class="btn-acao btn-whats" onclick="enviarAvaliacao('whatsapp')">
+    📱 Enviar via WhatsApp
+  </button>
+</div>
+
+<div class="footer-info">
+  Obrigado pela sua avaliação 💙
+</div>
+
+<!-- Modal de resultado -->
+<div class="modal-back" id="modal-back" onclick="if(event.target===this) fecharModal()">
+  <div class="modal">
+    <h3>✓ Avaliação pronta!</h3>
+    <p>Copia o texto abaixo e cola no WhatsApp:</p>
+    <div class="resultado-area" id="resultado-area"></div>
+    <div class="modal-acoes">
+      <button onclick="copiarResultado()">📋 Copiar</button>
+      <button class="primario" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- v303.457: Modal de avaliação individual da pessoa -->
+<div class="modal-pessoa-back" id="modal-pessoa-back"
+     onclick="if(event.target===this) fecharModalPessoa()">
+  <div class="modal-pessoa">
+    <div class="mp-header">
+      <div class="mp-nome" id="mp-nome">—</div>
+      <div class="mp-cpf" id="mp-cpf"></div>
+      <div class="mp-cargo-badge" id="mp-cargo" style="display:none"></div>
+    </div>
+
+    <div class="mp-classif" id="mp-classif">
+      <!-- Preenchido por JS -->
+    </div>
+
+    <div class="mp-form-titulo">⭐ Sua avaliação dessa pessoa</div>
+
+    <div class="mp-estrelas-wrap">
+      <div class="estrelas mp-estrelas" data-target="mp-nota-input">
+        <span class="star" data-v="1">★</span>
+        <span class="star" data-v="2">★</span>
+        <span class="star" data-v="3">★</span>
+        <span class="star" data-v="4">★</span>
+        <span class="star" data-v="5">★</span>
+      </div>
+      <input type="hidden" id="mp-nota-input" value="0">
+    </div>
+
+    <textarea id="mp-comentario" rows="3"
+              placeholder="Comentário sobre essa pessoa (opcional)"
+              style="width:100%;background:#0d1117;border:1px solid #30363d;
+                     border-radius:6px;padding:10px 12px;color:#e6edf3;
+                     font-family:inherit;font-size:13px;resize:vertical;
+                     outline:none;line-height:1.5;"></textarea>
+
+    <div class="mp-acoes">
+      <button class="mp-cancelar" onclick="fecharModalPessoa()">
+        Cancelar
+      </button>
+      <button class="mp-salvar" onclick="salvarNotaModal()">
+        ✓ Salvar Avaliação
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copiado!</div>
+
+<script>
+// === ESTRELAS ===
+function ligarEstrelas(container) {
+  var stars = container.querySelectorAll(".star");
+  var targetId = container.getAttribute("data-target");
+  var input = document.getElementById(targetId);
+
+  function pintar(n) {
+    for (var i = 0; i < stars.length; i++) {
+      stars[i].classList.toggle("ativo", i < n);
+    }
+    // Marca o card como "tem nota" se for pessoa
+    var card = container.closest(".pessoa-card");
+    if (card) {
+      card.classList.toggle("tem-nota", n > 0);
+    }
+  }
+
+  for (var i = 0; i < stars.length; i++) {
+    (function(i) {
+      stars[i].addEventListener("click", function(e) {
+        e.stopPropagation();
+        var v = parseInt(this.getAttribute("data-v"), 10);
+        if (input.value == v) v = 0;
+        input.value = v;
+        pintar(v);
+      });
+    })(i);
+  }
+}
+
+document.querySelectorAll(".estrelas").forEach(ligarEstrelas);
+
+// ═══════════════════════════════════════════════════════════════════
+// v303.457 — MODAL de avaliação individual + busca + colapso de bloco
+// ═══════════════════════════════════════════════════════════════════
+
+// Pessoa atualmente sendo avaliada no modal
+var __pessoaAtualId = null;
+
+function abrirModalPessoa(linha) {
+  var id = linha.getAttribute("data-id");
+  __pessoaAtualId = id;
+
+  var nome = linha.getAttribute("data-nome") || "";
+  var cpf = linha.getAttribute("data-cpf") || "";
+  var cargo = linha.getAttribute("data-cargo") || "";
+  var media = parseFloat(linha.getAttribute("data-media") || "0");
+  var total = parseInt(linha.getAttribute("data-total") || "0", 10);
+  var estrelas = linha.getAttribute("data-estrelas") || "";
+
+  document.getElementById("mp-nome").textContent = nome;
+  document.getElementById("mp-cpf").textContent =
+    cpf ? "CPF: " + cpf : "";
+  var cargoEl = document.getElementById("mp-cargo");
+  if (cargo) {
+    cargoEl.textContent = cargo;
+    cargoEl.style.display = "inline-block";
+  } else {
+    cargoEl.style.display = "none";
+  }
+
+  // Classificação atual
+  var classifEl = document.getElementById("mp-classif");
+  if (total > 0) {
+    classifEl.classList.remove("mp-novo");
+    classifEl.innerHTML =
+      '<div class="mp-classif-label">Classificação atual</div>' +
+      '<div class="mp-classif-estrelas">' + estrelas + '</div>' +
+      '<div class="mp-classif-num">' + media.toFixed(1) + ' / 5.0</div>' +
+      '<div class="mp-classif-info">' + total +
+        ' avaliações recebidas</div>';
+  } else {
+    classifEl.classList.add("mp-novo");
+    classifEl.innerHTML =
+      '<div class="mp-classif-label">🆕 Sem avaliações ainda</div>' +
+      '<div class="mp-classif-info" style="margin-top:6px;">' +
+      'Essa pessoa ainda não foi avaliada por outros clientes' +
+      '</div>';
+  }
+
+  // Carrega valor atual (se já tinha sido avaliada nessa sessão)
+  var notaAtual = parseInt(
+    document.getElementById(id).value || "0", 10);
+  var comentAtual = document.getElementById("comp-" + id).value || "";
+
+  // Pinta as estrelas do modal
+  var modalStars = document.querySelectorAll(".mp-estrelas .star");
+  for (var i = 0; i < modalStars.length; i++) {
+    modalStars[i].classList.toggle("ativo", i < notaAtual);
+  }
+  document.getElementById("mp-nota-input").value = notaAtual;
+  document.getElementById("mp-comentario").value = comentAtual;
+
+  document.getElementById("modal-pessoa-back").classList.add("show");
+}
+
+function salvarNotaModal() {
+  if (!__pessoaAtualId) return;
+  var id = __pessoaAtualId;
+  var nota = parseInt(
+    document.getElementById("mp-nota-input").value || "0", 10);
+  var coment = document.getElementById("mp-comentario").value || "";
+
+  // Salva nos inputs hidden da linha
+  document.getElementById(id).value = nota;
+  document.getElementById("comp-" + id).value = coment;
+
+  // Marca a linha como avaliada visualmente
+  var linha = document.querySelector(
+    '.pessoa-linha[data-id="' + id + '"]');
+  if (linha) {
+    linha.classList.toggle("tem-nota", nota > 0 || coment.length > 0);
+  }
+
+  fecharModalPessoa();
+  if (nota > 0) {
+    mostrarToast("✓ Avaliação salva");
+  }
+}
+
+function fecharModalPessoa() {
+  document.getElementById("modal-pessoa-back").classList.remove("show");
+  __pessoaAtualId = null;
+}
+
+// Busca em tempo real dentro do bloco
+function filtrarBloco(input) {
+  var q = (input.value || "").toLowerCase().trim();
+  var bloco = input.closest(".bloco-dia");
+  var linhas = bloco.querySelectorAll(".pessoa-linha");
+  var visiveis = 0;
+  for (var i = 0; i < linhas.length; i++) {
+    var s = linhas[i].getAttribute("data-search") || "";
+    var ok = !q || s.indexOf(q) !== -1;
+    linhas[i].classList.toggle("escondido", !ok);
+    if (ok) visiveis++;
+  }
+  // Atualiza contador
+  var contador = document.getElementById("contador-" + input.id);
+  if (contador) {
+    if (q) {
+      contador.textContent = visiveis + " de " + linhas.length;
+    } else {
+      contador.textContent = linhas.length + " pessoas";
+    }
+  }
+}
+
+// Colapsar/expandir bloco
+function toggleBloco(header) {
+  var bloco = header.closest(".bloco-dia");
+  bloco.classList.toggle("aberto");
+  var seta = bloco.querySelector(".bl-seta");
+  if (seta) {
+    seta.textContent = bloco.classList.contains("aberto") ? "▼" : "▶";
+  }
+}
+
+// v303.459: Mostra/esconde área de avaliação individual do dia
+function toggleIndividual(btn) {
+  btn.classList.toggle("aberto");
+}
+
+// === MONTAR PAYLOAD ===
+function montarPayload() {
+  var get = function(id) {
+    var el = document.getElementById(id);
+    return el ? el.value : "";
+  };
+  var getNum = function(id) {
+    var v = parseFloat(get(id));
+    return isNaN(v) ? null : v;
+  };
+
+  // v303.457: lê todos os hidden inputs de pessoa (das linhas)
+  // Avaliações INDIVIDUAIS (pessoas dos dias — prefixo começa com 'd')
+  var indivs = [];
+  // Avaliações da SUPERVISÃO (prefixo começa com 'sup')
+  var supervs = [];
+
+  var linhas = document.querySelectorAll(".pessoa-linha");
+  for (var i = 0; i < linhas.length; i++) {
+    var id = linhas[i].getAttribute("data-id");
+    var prefixo = linhas[i].getAttribute("data-prefixo") || "";
+    var inputNota = document.getElementById(id);
+    var inputComp = document.getElementById("comp-" + id);
+    if (!inputNota) continue;
+
+    var nota = parseFloat(inputNota.value) || 0;
+    var coment = inputComp ? (inputComp.value || "").trim() : "";
+    if (nota <= 0 && !coment) continue;
+
+    var item = {
+      nome: linhas[i].getAttribute("data-nome") || "",
+      cpf: linhas[i].getAttribute("data-cpf") || "",
+      nota: nota,
+      comentario: coment
+    };
+
+    // Sup vs individual: pelo prefixo
+    if (prefixo.indexOf("sup") === 0) {
+      supervs.push(item);
+    } else {
+      indivs.push(item);
+    }
+  }
+
+  // Avaliações por DIA
+  var dias_aval = [];
+  var inputs_dia = document.querySelectorAll(
+    'input[id^="nota-dia-"]');
+  for (var i = 0; i < inputs_dia.length; i++) {
+    var nota = parseFloat(inputs_dia[i].value) || 0;
+    var coment_el = document.getElementById(
+      "coment-dia-" + inputs_dia[i].id.replace("nota-dia-", ""));
+    var coment = coment_el ? coment_el.value.trim() : "";
+    if (nota > 0 || coment) {
+      dias_aval.push({
+        data: inputs_dia[i].getAttribute("data-data") || "",
+        nota: nota, comentario: coment
+      });
+    }
+  }
+
+  return {
+    data_evento: "2026-05-08",
+    data_fim: "2026-05-08",
+    oc: null,
+    cliente: "RIOCENTRO",
+    evento: "OPARACIONAL",
+    local: "RIOCENTRO",
+    nota_geral: getNum("nota_geral"),
+    nota_atendimento: getNum("nota_atendimento"),
+    nota_uniforme: getNum("nota_uniforme"),
+    nota_pontualidade: getNum("nota_pontualidade"),
+    nota_postura: getNum("nota_postura"),
+    nota_organizacao: getNum("nota_organizacao"),
+    nota_comunicacao: getNum("nota_comunicacao"),
+    avaliacoes_individuais: indivs,
+    avaliacoes_supervisao: supervs,
+    avaliacoes_por_dia: dias_aval,
+    pontos_positivos: get("pontos_positivos").trim(),
+    pontos_melhorar: get("pontos_melhorar").trim(),
+    comentario_geral: get("comentario_geral").trim(),
+    avaliado_por: get("avaliado_por").trim(),
+    data_avaliacao: new Date().toISOString()
+  };
+}
+
+function enviarAvaliacao(metodo) {
+  var p = montarPayload();
+  if (!p.nota_geral) {
+    alert("Por favor, dê pelo menos a Nota Geral antes de enviar.");
+    return;
+  }
+  var json = JSON.stringify(p, null, 2);
+  var msg = "⭐ AVALIAÇÃO DE PEDIDO\n\n" +
+              "Cliente: " + p.cliente + "\n" +
+              "Período: " + p.data_evento +
+              (p.data_fim && p.data_fim !== p.data_evento
+                ? " até " + p.data_fim : "") + "\n\n" +
+              "[INÍCIO_AVALIACAO]\n" + json + "\n[FIM_AVALIACAO]";
+  if (metodo === "whatsapp") {
+    var url = "https://wa.me/?text=" + encodeURIComponent(msg);
+    window.open(url, "_blank");
+  } else {
+    document.getElementById("resultado-area").textContent = msg;
+    document.getElementById("modal-back").classList.add("show");
+  }
+}
+
+function copiarResultado() {
+  var txt = document.getElementById("resultado-area").textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(function() {
+      mostrarToast("✓ Copiado!");
+    }).catch(function() { copiarFallback(txt); });
+  } else { copiarFallback(txt); }
+}
+function copiarFallback(txt) {
+  try {
+    var ta = document.createElement("textarea");
+    ta.value = txt;
+    ta.style.position = "fixed"; ta.style.top = "-9999px";
+    document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy");
+    document.body.removeChild(ta);
+    mostrarToast("✓ Copiado!");
+  } catch (e) {
+    alert("Não consegui copiar. Selecione o texto e Ctrl+C.");
+  }
+}
+function fecharModal() {
+  document.getElementById("modal-back").classList.remove("show");
+}
+function mostrarToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function() { t.classList.remove("show"); }, 2200);
+}
+</script>
+
+</body>
+</html>
