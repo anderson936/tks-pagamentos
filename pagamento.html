@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAGAMENTO DIÁRIO</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Roboto, Arial, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+
+    /* Bloqueia seleção e cópia */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  body {
+    padding: 16px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* Marca d'água sutil no fundo */
+  .watermark {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.02);
+    font-weight: 900;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+    letter-spacing: 8px;
+  }
+
+  .topo {
+    text-align: center;
+    padding: 14px 0 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .topo-titulo {
+    font-size: 11px;
+    color: #6e7681;
+    letter-spacing: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .data-header {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: #e6edf3;
+    padding: 18px 0 8px;
+    letter-spacing: 1px;
+    line-height: 1.25;
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+    text-shadow: 0 0 24px rgba(255, 255, 255, 0.15);
+  }
+  .data-header::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg,
+      transparent, #e6edf3, transparent);
+    margin: 12px auto 16px;
+    border-radius: 2px;
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .kpi {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .kpi-label {
+    font-size: 10px;
+    color: #7d8590;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .kpi-valor {
+    font-size: 22px;
+    font-weight: 700;
+    color: #e6edf3;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-valor.verde { color: #3fb950; }
+
+  .obras-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .obra {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .obra-header {
+    background: #1c2128;
+    padding: 12px 14px;
+    border-bottom: 1px solid #30363d;
+  }
+  .obra-titulo {
+    font-size: 15px;
+    font-weight: 700;
+    color: #e6edf3;
+    letter-spacing: 0.3px;
+  }
+  .obra-evento {
+    font-weight: 500;
+    color: #7d8590;
+    font-size: 13px;
+    margin-left: 4px;
+  }
+  .obra-info {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #8b949e;
+  }
+  .obra-horario { color: #58a6ff; font-weight: 600; }
+  .obra-setor   { color: #d29922; }
+  .obra-local   { color: #8b949e; }
+
+  .obra-pessoas {
+    padding: 4px 0;
+  }
+  .pessoa-linha {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid #21262d;
+    gap: 10px;
+    transition: background 0.15s;
+  }
+  .pessoa-linha:last-child { border-bottom: 0; }
+  .pessoa-linha.clicavel { cursor: pointer; }
+  .pessoa-linha.clicavel:hover {
+    background: #1c2933;
+  }
+  .pessoa-linha.clicavel:active {
+    background: #21303c;
+  }
+  .pessoa-linha.sem-pix { opacity: 0.65; }
+
+  .pix-ind {
+    margin-left: 8px;
+    font-size: 11px;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+  }
+  .pessoa-linha.clicavel:hover .pix-ind { opacity: 1; }
+  .pix-ind.sem { color: #d29922; opacity: 0.8; }
+  .pessoa-num {
+    color: #6e7681;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .pessoa-nome {
+    color: #e6edf3;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .pessoa-cargo {
+    color: #8b949e;
+    font-size: 11px;
+    margin-left: 8px;
+    background: #21262d;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .pessoa-valor { font-size: 14px; }
+  .valor-ok {
+    color: #3fb950;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .valor-zero { color: #484f58; }
+
+  .obra-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #1c2128;
+    border-top: 1px solid #30363d;
+  }
+  .ot-label {
+    font-size: 11px;
+    color: #7d8590;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+  }
+  .ot-valor {
+    font-size: 16px;
+    font-weight: 700;
+    color: #58a6ff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vazio {
+    text-align: center;
+    padding: 60px 20px;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 10px;
+  }
+  .vazio-icone { font-size: 48px; margin-bottom: 12px; }
+  .vazio-titulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e6edf3;
+    margin-bottom: 4px;
+  }
+  .vazio-sub { font-size: 13px; color: #7d8590; }
+
+  .footer-info {
+    text-align: center;
+    padding: 26px 0 12px;
+    font-size: 11px;
+    color: #484f58;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* DEFAULT: mostra todos os dias (fallback caso JS não rode em
+     viewers limitados como o do WhatsApp). O JS, quando consegue
+     rodar, adiciona body.js-ok que esconde os outros dias e
+     mantém só o de hoje. Assim a equipe nunca fica com tela em
+     branco — no pior caso vê todos os dias. */
+  .dia { display: block; }
+  body.js-ok .dia { display: none; }
+  body.js-ok .dia.ativo { display: block; }
+
+  /* Quando JS não roda, mostra um separador visual entre dias */
+  .dia + .dia {
+    margin-top: 28px;
+    padding-top: 6px;
+    border-top: 2px dashed #30363d;
+  }
+  body.js-ok .dia + .dia {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  /* Mensagem quando não tem dado pra hoje */
+  .sem-hoje {
+    text-align: center;
+    padding: 80px 20px;
+    color: #7d8590;
+    position: relative;
+    z-index: 1;
+  }
+  .sem-hoje-icone { font-size: 64px; margin-bottom: 16px; }
+  .sem-hoje-titulo {
+    font-size: 18px;
+    color: #e6edf3;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .sem-hoje-sub { font-size: 13px; color: #7d8590; }
+
+  /* === BLOQUEIO DE IMPRESSÃO === */
+  @media print {
+    body, html {
+      background: #fff !important;
+      color: #fff !important;
+    }
+    body * { visibility: hidden !important; }
+    body::before {
+      content: "🔒 Este documento não pode ser impresso.";
+      visibility: visible !important;
+      display: block;
+      text-align: center;
+      padding: 100px 20px;
+      font-size: 18px;
+      color: #1a1a1a !important;
+    }
+  }
+
+  /* Hover sutil só em pessoa-linha */
+
+  /* === TOAST de PIX copiado === */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%) translateY(20px);
+    background: #1f6feb;
+    color: #ffffff;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4),
+                  0 0 0 1px rgba(255,255,255,0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 100;
+    max-width: 90%;
+    text-align: center;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast.erro { background: #f85149; }
+  .toast-titulo {
+    font-size: 12px;
+    opacity: 0.85;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .toast-pix {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 15px;
+    word-break: break-all;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+</style>
+</head>
+<body>
+
+<noscript>
+  <div style="background:#d29922; color:#000; padding:14px 20px;
+              text-align:center; font-weight:600; line-height:1.4;
+              border-radius:8px; margin:12px;">
+    ⚠ JavaScript desativado no seu navegador.<br>
+    <span style="font-weight:400; font-size:13px;">
+      Pra ver só o dia de hoje, abra esse arquivo no Chrome/Safari.
+    </span>
+  </div>
+</noscript>
+
+<div class="watermark">PAGAMENTO DIÁRIO</div>
+
+<div class="topo">
+  <div class="topo-titulo">PAGAMENTO DIÁRIO</div>
+</div>
+
+<div id="conteudo">
+  <div class="dia" data-dia="2026-05-08">  <div class="data-header">SEXTA-FEIRA, 08 DE MAIO DE 2026</div>  <div class="kpi-row">    <div class="kpi"><div class="kpi-label">TOTAL DO DIA</div>      <div class="kpi-valor verde">R$ 0,00</div></div>    <div class="kpi"><div class="kpi-label">PESSOAS</div>      <div class="kpi-valor">5</div></div>    <div class="kpi"><div class="kpi-label">OBRAS</div>      <div class="kpi-valor">1</div></div>  </div>  <div class="obras-wrapper"><div class="obra">  <div class="obra-header">    <div class="obra-titulo">CRIATIVA <span class="obra-evento">(THE WEEKND)</span></div>    <div class="obra-info"><span class="obra-horario">⏰ 08:00</span> &nbsp;·&nbsp; <span class="obra-setor">OPERACIONAL</span> &nbsp;·&nbsp; <span class="obra-local">📍 RIO CENTRO</span></div>  </div>  <div class="obra-pessoas"><div class="pessoa-linha sem-pix"><span class="pessoa-num">01</span><span class="pessoa-nome">ANTONY SOUZA<span class="pix-ind sem" title="Sem PIX cadastrado">⚠</span></span><span class="pessoa-valor"><span class="valor-zero">—</span></span></div><div class="pessoa-linha sem-pix"><span class="pessoa-num">02</span><span class="pessoa-nome">BRUNO AGUIAR<span class="pix-ind sem" title="Sem PIX cadastrado">⚠</span></span><span class="pessoa-valor"><span class="valor-zero">—</span></span></div><div class="pessoa-linha clicavel" data-pix="179.505.867-61"><span class="pessoa-num">03</span><span class="pessoa-nome">CARLOS HENRIQUE<span class="pix-ind" title="Copiar PIX">📋</span></span><span class="pessoa-valor"><span class="valor-zero">—</span></span></div><div class="pessoa-linha sem-pix"><span class="pessoa-num">04</span><span class="pessoa-nome">DIEGO SILVA<span class="pix-ind sem" title="Sem PIX cadastrado">⚠</span></span><span class="pessoa-valor"><span class="valor-zero">—</span></span></div><div class="pessoa-linha sem-pix"><span class="pessoa-num">05</span><span class="pessoa-nome">FABRIOCIO SANTOS<span class="pix-ind sem" title="Sem PIX cadastrado">⚠</span></span><span class="pessoa-valor"><span class="valor-zero">—</span></span></div></div>  <div class="obra-total"><span class="ot-label">TOTAL · 5 pessoas</span><span class="ot-valor">—</span></div></div></div></div>
+
+  <div class="sem-hoje" id="sem-hoje" style="display:none;">
+    <div class="sem-hoje-icone">📭</div>
+    <div class="sem-hoje-titulo">Sem pagamentos para hoje</div>
+    <div class="sem-hoje-sub">Volte amanhã pra conferir.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast-titulo" id="toast-titulo">PIX copiado</div>
+  <div class="toast-pix" id="toast-pix"></div>
+</div>
+
+<div class="footer-info">
+  Gerado em 08/05/2026 às 11:52 · 1 dia
+  cobertos · 08/05/2026<br>
+  <strong>Confidencial</strong> · Não imprimir, não compartilhar
+</div>
+
+<script>
+(function() {
+  // Marca o body como "JS funcionando" o quanto antes — ativa o
+  // CSS que esconde os outros dias. Se algo der erro depois,
+  // pelo menos isso já rodou.
+  try {
+    document.body.classList.add("js-ok");
+  } catch (e) {}
+
+  // ── Escolhe o dia atual ──
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function getHojeISO() {
+    var d = new Date();
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" +
+            pad(d.getDate());
+  }
+  var hoje = getHojeISO();
+
+  try {
+    var dias = document.querySelectorAll(".dia");
+    var encontrou = false;
+    for (var i = 0; i < dias.length; i++) {
+      if (dias[i].getAttribute("data-dia") === hoje) {
+        dias[i].classList.add("ativo");
+        encontrou = true;
+      } else {
+        dias[i].classList.remove("ativo");
+      }
+    }
+    if (!encontrou) {
+      var sh = document.getElementById("sem-hoje");
+      if (sh) sh.style.display = "block";
+    }
+  } catch (e) {
+    // Se der erro, remove a classe js-ok pra mostrar todos os dias
+    try { document.body.classList.remove("js-ok"); } catch (e2) {}
+  }
+
+  // ── Clique no nome → copia PIX pro clipboard ──
+  var toast = document.getElementById("toast");
+  var toastTitulo = document.getElementById("toast-titulo");
+  var toastPix = document.getElementById("toast-pix");
+  var toastTimer = null;
+
+  function mostrarToast(titulo, pix, erro) {
+    toastTitulo.textContent = titulo;
+    toastPix.textContent = pix || "";
+    toast.classList.toggle("erro", !!erro);
+    toast.classList.add("show");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() {
+      toast.classList.remove("show");
+    }, 3500);
+  }
+
+  function copiarTexto(txt) {
+    // 1ª tentativa: clipboard API moderna
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(txt).then(function() {
+        return true;
+      }).catch(function() {
+        return copiarFallback(txt);
+      });
+    }
+    return Promise.resolve(copiarFallback(txt));
+  }
+
+  function copiarFallback(txt) {
+    // Fallback: textarea + execCommand (funciona em file://)
+    try {
+      var ta = document.createElement("textarea");
+      ta.value = txt;
+      ta.style.position = "fixed";
+      ta.style.top = "-9999px";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      var ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Liga o clique nas linhas
+  var linhas = document.querySelectorAll(".pessoa-linha.clicavel");
+  for (var j = 0; j < linhas.length; j++) {
+    linhas[j].addEventListener("click", function(e) {
+      var pix = this.getAttribute("data-pix");
+      if (!pix) return;
+      var nome = this.querySelector(".pessoa-nome");
+      var nomeTxt = nome ? nome.firstChild.textContent.trim() : "";
+      var p = copiarTexto(pix);
+      if (p && p.then) {
+        p.then(function(ok) {
+          if (ok) {
+            mostrarToast("PIX de " + nomeTxt, pix, false);
+          } else {
+            mostrarToast("Erro ao copiar", pix, true);
+          }
+        });
+      } else {
+        mostrarToast(p ? ("PIX de " + nomeTxt) : "Erro ao copiar",
+                       pix, !p);
+      }
+    });
+  }
+
+  // Linhas SEM pix → avisa ao clicar
+  var semPix = document.querySelectorAll(".pessoa-linha.sem-pix");
+  for (var k = 0; k < semPix.length; k++) {
+    semPix[k].addEventListener("click", function() {
+      mostrarToast("Sem PIX cadastrado",
+                     "Cadastra essa pessoa no sistema", true);
+    });
+  }
+
+  // ── Bloqueio de teclas e ações ──
+  document.addEventListener("keydown", function(e) {
+    var k = e.key ? e.key.toLowerCase() : "";
+    // Ctrl/Cmd + ações (Ctrl+C liberado pra fallback de copiar PIX
+    // do toast caso a API moderna falhe)
+    if ((e.ctrlKey || e.metaKey) &&
+        (k === "p" || k === "s" || k === "a" ||
+         k === "u" || k === "x")) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+    // F12 (DevTools)
+    if (e.key === "F12") {
+      e.preventDefault();
+      return false;
+    }
+    // Ctrl+Shift+I/J/C (DevTools)
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey &&
+        (k === "i" || k === "j" || k === "c")) {
+      e.preventDefault();
+      return false;
+    }
+    // PrintScreen (alguns browsers permitem capturar)
+    if (e.key === "PrintScreen") {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // ── Bloqueio do print via menu ──
+  window.addEventListener("beforeprint", function(e) {
+    e.preventDefault && e.preventDefault();
+  });
+
+  // ── Detecta se o documento está sendo recarregado pra atualizar
+  // o dia (caso a pessoa deixe aberto e mude o dia) ──
+  setInterval(function() {
+    var novoHoje = getHojeISO();
+    if (novoHoje !== hoje) {
+      location.reload();
+    }
+  }, 60 * 1000);  // checa a cada 1 min
+})();
+</script>
+
+</body>
+</html>
