@@ -617,6 +617,65 @@
   .btn-acao:active { transform: scale(0.98); }
   .btn-copiar { background: #1f6feb; }
   .btn-whats { background: #25d366; }
+  /* v303.468: Botão PRINCIPAL "Enviar Avaliação" */
+  .botao-principal-wrap {
+    margin: 28px 0 12px;
+  }
+  .btn-enviar-principal {
+    width: 100%;
+    padding: 18px 24px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1f6feb, #2188ff);
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 18px rgba(31, 111, 235, 0.4);
+    transition: all 0.18s;
+  }
+  .btn-enviar-principal:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(31, 111, 235, 0.55);
+  }
+  .btn-enviar-principal:active { transform: scale(0.98); }
+  .btn-enviar-principal:disabled {
+    background: #238636;
+    cursor: default;
+    box-shadow: 0 4px 18px rgba(35, 134, 54, 0.45);
+    transform: none;
+  }
+  .enviar-status {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #8b949e;
+    min-height: 18px;
+  }
+  .enviar-status.sucesso {
+    color: #56d364;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .enviar-status.erro {
+    color: #f85149;
+    font-weight: 600;
+  }
+  .botoes-secundarios {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed #30363d;
+  }
+  .bs-titulo {
+    text-align: center;
+    color: #6e7681;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
 
   /* Modal de resultado */
   .modal-back {
@@ -1020,13 +1079,25 @@
   </div>
 </div>
 
-<div class="botoes-final">
-  <button class="btn-acao btn-copiar" onclick="enviarAvaliacao('copiar')">
-    📋 Copiar Resultado
+<!-- v303.468: Botão PRINCIPAL "Enviar Avaliação" + secundários (Copiar/WhatsApp) -->
+<div class="botao-principal-wrap">
+  <button class="btn-enviar-principal" id="btn-enviar-principal"
+          onclick="enviarDireto()">
+    ✓ Enviar Avaliação
   </button>
-  <button class="btn-acao btn-whats" onclick="enviarAvaliacao('whatsapp')">
-    📱 Enviar via WhatsApp
-  </button>
+  <div class="enviar-status" id="enviar-status"></div>
+</div>
+
+<div class="botoes-secundarios">
+  <div class="bs-titulo">Ou então:</div>
+  <div class="botoes-final">
+    <button class="btn-acao btn-copiar" onclick="enviarAvaliacao('copiar')">
+      📋 Copiar Resultado
+    </button>
+    <button class="btn-acao btn-whats" onclick="enviarAvaliacao('whatsapp')">
+      📱 Enviar via WhatsApp
+    </button>
+  </div>
 </div>
 
 <div class="footer-info">
@@ -1373,6 +1444,8 @@ function enviarAvaliacao(metodo) {
     alert("Por favor, dê pelo menos a Nota Geral antes de enviar.");
     return;
   }
+  // v303.467: envio silencioso pro Google Forms (receptor automático)
+  try { enviarParaGoogleForms(p); } catch(e) { console.warn("GForms:", e); }
   var json = JSON.stringify(p, null, 2);
   var msg = "⭐ AVALIAÇÃO DE PEDIDO\n\n" +
               "Cliente: " + p.cliente + "\n" +
@@ -1386,6 +1459,47 @@ function enviarAvaliacao(metodo) {
   } else {
     document.getElementById("resultado-area").textContent = msg;
     document.getElementById("modal-back").classList.add("show");
+  }
+}
+
+// v303.468: envio direto pro botão principal "Enviar Avaliação"
+function enviarDireto() {
+  var btn = document.getElementById("btn-enviar-principal");
+  var status = document.getElementById("enviar-status");
+  var p = montarPayload();
+
+  if (!p.nota_geral) {
+    status.textContent = "⚠ Por favor, dê pelo menos a Nota Geral antes de enviar.";
+    status.className = "enviar-status erro";
+    return;
+  }
+  if (!p.avaliado_por) {
+    status.textContent = "⚠ Preencha o campo 'Seu nome' antes de enviar.";
+    status.className = "enviar-status erro";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "⏳ Enviando...";
+  status.textContent = "";
+  status.className = "enviar-status";
+
+  try {
+    enviarParaGoogleForms(p);
+    setTimeout(function() {
+      btn.textContent = "✓ Avaliação enviada com sucesso!";
+      status.innerHTML =
+        "<b>Obrigado!</b> A TKS recebeu sua avaliação automaticamente.<br>" +
+        "<small style='color:#8b949e;font-weight:400;'>Você pode fechar essa janela.</small>";
+      status.className = "enviar-status sucesso";
+    }, 600);
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = "✓ Enviar Avaliação";
+    status.textContent =
+      "⚠ Não consegui enviar online. Use os botões abaixo (Copiar/WhatsApp) como alternativa.";
+    status.className = "enviar-status erro";
+    console.error("Erro ao enviar:", e);
   }
 }
 
@@ -1418,6 +1532,110 @@ function mostrarToast(msg) {
   t.textContent = msg;
   t.classList.add("show");
   setTimeout(function() { t.classList.remove("show"); }, 2200);
+}
+
+/* =========================================================================
+ * v303.467: RECEPTOR AUTOMÁTICO VIA GOOGLE FORMS
+ * Quando o cliente clica em "Copiar Resultado" ou "Enviar via WhatsApp",
+ * os dados são silenciosamente postados no Google Form (planilha vinculada).
+ * Funciona apenas se o cliente tiver internet no momento do clique.
+ * ========================================================================= */
+var GFORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScxiljS8RFSgnalKMtRalKbPVTJtEVLfDOrslGuFq5JK8Lhgw/formResponse";
+var GFORM_FIELDS = {
+  id_avaliacao:              "entry.429446788",
+  cliente:                   "entry.1113849968",
+  evento:                    "entry.677189143",
+  local:                     "entry.273053813",
+  data_inicio:               "entry.1331467858",
+  data_fim:                  "entry.260779583",
+  total_pessoas:             "entry.1299253921",
+  total_blocos:              "entry.1310966857",
+  nota_geral:                "entry.2136927685",
+  nota_atendimento:          "entry.536182705",
+  nota_uniforme:             "entry.1516121390",
+  nota_pontualidade:         "entry.257851572",
+  nota_postura:              "entry.794228033",
+  nota_organizacao:          "entry.1474583190",
+  nota_comunicacao:          "entry.2025736131",
+  pontos_positivos:          "entry.666396224",
+  pontos_a_melhorar:         "entry.1766331879",
+  comentario_geral:          "entry.1772682015",
+  avaliado_por:              "entry.804177654",
+  avaliacao_individual_json: "entry.872247552",
+  avaliacao_por_dia_json:    "entry.38560318",
+  enviado_em:                "entry.294812066"
+};
+
+function gformAppend(fd, campo, valor) {
+  if (GFORM_FIELDS[campo]) {
+    fd.append(GFORM_FIELDS[campo], valor == null ? "" : String(valor));
+  }
+}
+
+function enviarParaGoogleForms(p) {
+  // ID único pra essa avaliação (cliente + data + timestamp)
+  var idAval = (p.cliente || "AVAL") + "-" +
+               (p.data_evento || "").replace(/-/g, "") + "-" +
+               Date.now().toString(36);
+
+  // Conta pessoas únicas avaliadas
+  var nomes = {};
+  (p.avaliacoes_individuais || []).forEach(function(a) {
+    if (a.nome) nomes[a.nome] = 1;
+  });
+  (p.avaliacoes_supervisao || []).forEach(function(a) {
+    if (a.nome) nomes[a.nome] = 1;
+  });
+  var totalPessoas = Object.keys(nomes).length;
+
+  // Junta avaliações individuais + supervisão num único JSON
+  var todasIndivs = [];
+  (p.avaliacoes_individuais || []).forEach(function(a) {
+    todasIndivs.push({
+      nome: a.nome, cpf: a.cpf, nota: a.nota,
+      comentario: a.comentario, tipo: "individual"
+    });
+  });
+  (p.avaliacoes_supervisao || []).forEach(function(a) {
+    todasIndivs.push({
+      nome: a.nome, cpf: a.cpf, nota: a.nota,
+      comentario: a.comentario, tipo: "supervisao"
+    });
+  });
+
+  var fd = new FormData();
+  gformAppend(fd, "id_avaliacao",      idAval);
+  gformAppend(fd, "cliente",           p.cliente || "");
+  gformAppend(fd, "evento",            p.evento || "");
+  gformAppend(fd, "local",             p.local || "");
+  gformAppend(fd, "data_inicio",       p.data_evento || "");
+  gformAppend(fd, "data_fim",          p.data_fim || p.data_evento || "");
+  gformAppend(fd, "total_pessoas",     totalPessoas);
+  gformAppend(fd, "total_blocos",      (p.avaliacoes_por_dia || []).length || 1);
+  gformAppend(fd, "nota_geral",        p.nota_geral);
+  gformAppend(fd, "nota_atendimento",  p.nota_atendimento);
+  gformAppend(fd, "nota_uniforme",     p.nota_uniforme);
+  gformAppend(fd, "nota_pontualidade", p.nota_pontualidade);
+  gformAppend(fd, "nota_postura",      p.nota_postura);
+  gformAppend(fd, "nota_organizacao",  p.nota_organizacao);
+  gformAppend(fd, "nota_comunicacao",  p.nota_comunicacao);
+  gformAppend(fd, "pontos_positivos",  p.pontos_positivos || "");
+  gformAppend(fd, "pontos_a_melhorar", p.pontos_melhorar || "");
+  gformAppend(fd, "comentario_geral",  p.comentario_geral || "");
+  gformAppend(fd, "avaliado_por",      p.avaliado_por || "");
+  gformAppend(fd, "avaliacao_individual_json", JSON.stringify(todasIndivs));
+  gformAppend(fd, "avaliacao_por_dia_json",    JSON.stringify(p.avaliacoes_por_dia || []));
+  gformAppend(fd, "enviado_em",        p.data_avaliacao || new Date().toISOString());
+
+  // Envia em modo no-cors (Google não retorna resposta legível, mas o envio acontece)
+  fetch(GFORM_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body: fd
+  }).catch(function(err) {
+    // Falha silenciosa — cliente continua tendo Copiar/WhatsApp como fallback
+    console.warn("Receptor GForms falhou:", err);
+  });
 }
 </script>
 
