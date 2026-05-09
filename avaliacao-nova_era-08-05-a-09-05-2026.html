@@ -617,6 +617,65 @@
   .btn-acao:active { transform: scale(0.98); }
   .btn-copiar { background: #1f6feb; }
   .btn-whats { background: #25d366; }
+  /* v303.468: Botão PRINCIPAL "Enviar Avaliação" */
+  .botao-principal-wrap {
+    margin: 28px 0 12px;
+  }
+  .btn-enviar-principal {
+    width: 100%;
+    padding: 18px 24px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1f6feb, #2188ff);
+    color: white;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 18px rgba(31, 111, 235, 0.4);
+    transition: all 0.18s;
+  }
+  .btn-enviar-principal:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(31, 111, 235, 0.55);
+  }
+  .btn-enviar-principal:active { transform: scale(0.98); }
+  .btn-enviar-principal:disabled {
+    background: #238636;
+    cursor: default;
+    box-shadow: 0 4px 18px rgba(35, 134, 54, 0.45);
+    transform: none;
+  }
+  .enviar-status {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #8b949e;
+    min-height: 18px;
+  }
+  .enviar-status.sucesso {
+    color: #56d364;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .enviar-status.erro {
+    color: #f85149;
+    font-weight: 600;
+  }
+  .botoes-secundarios {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed #30363d;
+  }
+  .bs-titulo {
+    text-align: center;
+    color: #6e7681;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
 
   /* Modal de resultado */
   .modal-back {
@@ -852,45 +911,6 @@
 
 <!-- ─── 2. Supervisão ─── -->
 
-        <div class="secao supervisao">
-          <div class="secao-titulo">👔 Supervisão</div>
-          <p class="secao-desc">
-            Avalie a supervisão/coordenação que esteve com você
-          </p>
-          
-    <div class="pessoa-linha"
-          data-id="sup-0-0"
-          data-nome="JOÃO VICTOR L. G. NASCIMENTO"
-          data-cpf="20718159713"
-          data-cargo="SUPERVISÃO"
-          data-media="0"
-          data-total="0"
-          data-estrelas="—"
-          data-prefixo="sup-0"
-          data-search="joão victor l. g. nascimento 20718159713"
-          data-foto=""
-          data-iniciais="JN"
-          data-cor="linear-gradient(135deg, hsl(218, 65%, 55%), hsl(258, 70%, 45%))"
-          onclick="abrirModalPessoa(this)">
-      <span class="pl-num">01</span>
-      <span class="pl-nome">JOÃO VICTOR L. G. NASCIMENTO<span class="p-cargo">SUPERVISÃO</span></span>
-      <span class="pl-cpf">20718159713</span>
-      <div class="rating-mini sem"><span class="rm-novo">novo</span></div>
-      <span class="pl-status" id="status-sup-0-0">
-        <span class="ps-icon">›</span>
-      </span>
-      <input type="hidden" id="sup-0-0"
-              data-nome="JOÃO VICTOR L. G. NASCIMENTO"
-              data-cpf="20718159713"
-              data-prefixo="sup-0"
-              value="0">
-      <input type="hidden" id="comp-sup-0-0"
-              data-prefixo="sup-0"
-              value="">
-    </div>
-    
-        </div>
-        
 
 <!-- ─── 3. Avaliação por DIA + Individual ─── -->
 <div class="secao">
@@ -2405,13 +2425,25 @@
   </div>
 </div>
 
-<div class="botoes-final">
-  <button class="btn-acao btn-copiar" onclick="enviarAvaliacao('copiar')">
-    📋 Copiar Resultado
+<!-- v303.468: Botão PRINCIPAL "Enviar Avaliação" + secundários (Copiar/WhatsApp) -->
+<div class="botao-principal-wrap">
+  <button class="btn-enviar-principal" id="btn-enviar-principal"
+          onclick="enviarDireto()">
+    ✓ Enviar Avaliação
   </button>
-  <button class="btn-acao btn-whats" onclick="enviarAvaliacao('whatsapp')">
-    📱 Enviar via WhatsApp
-  </button>
+  <div class="enviar-status" id="enviar-status"></div>
+</div>
+
+<div class="botoes-secundarios">
+  <div class="bs-titulo">Ou então:</div>
+  <div class="botoes-final">
+    <button class="btn-acao btn-copiar" onclick="enviarAvaliacao('copiar')">
+      📋 Copiar Resultado
+    </button>
+    <button class="btn-acao btn-whats" onclick="enviarAvaliacao('whatsapp')">
+      📱 Enviar via WhatsApp
+    </button>
+  </div>
 </div>
 
 <div class="footer-info">
@@ -2773,6 +2805,47 @@ function enviarAvaliacao(metodo) {
   } else {
     document.getElementById("resultado-area").textContent = msg;
     document.getElementById("modal-back").classList.add("show");
+  }
+}
+
+// v303.468: envio direto pro botão principal "Enviar Avaliação"
+function enviarDireto() {
+  var btn = document.getElementById("btn-enviar-principal");
+  var status = document.getElementById("enviar-status");
+  var p = montarPayload();
+
+  if (!p.nota_geral) {
+    status.textContent = "⚠ Por favor, dê pelo menos a Nota Geral antes de enviar.";
+    status.className = "enviar-status erro";
+    return;
+  }
+  if (!p.avaliado_por) {
+    status.textContent = "⚠ Preencha o campo 'Seu nome' antes de enviar.";
+    status.className = "enviar-status erro";
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "⏳ Enviando...";
+  status.textContent = "";
+  status.className = "enviar-status";
+
+  try {
+    enviarParaGoogleForms(p);
+    setTimeout(function() {
+      btn.textContent = "✓ Avaliação enviada com sucesso!";
+      status.innerHTML =
+        "<b>Obrigado!</b> A TKS recebeu sua avaliação automaticamente.<br>" +
+        "<small style='color:#8b949e;font-weight:400;'>Você pode fechar essa janela.</small>";
+      status.className = "enviar-status sucesso";
+    }, 600);
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = "✓ Enviar Avaliação";
+    status.textContent =
+      "⚠ Não consegui enviar online. Use os botões abaixo (Copiar/WhatsApp) como alternativa.";
+    status.className = "enviar-status erro";
+    console.error("Erro ao enviar:", e);
   }
 }
 
