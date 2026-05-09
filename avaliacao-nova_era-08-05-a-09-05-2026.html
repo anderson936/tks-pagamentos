@@ -2758,6 +2758,8 @@ function enviarAvaliacao(metodo) {
     alert("Por favor, dê pelo menos a Nota Geral antes de enviar.");
     return;
   }
+  // v303.467: envio silencioso pro Google Forms (receptor automático)
+  try { enviarParaGoogleForms(p); } catch(e) { console.warn("GForms:", e); }
   var json = JSON.stringify(p, null, 2);
   var msg = "⭐ AVALIAÇÃO DE PEDIDO\n\n" +
               "Cliente: " + p.cliente + "\n" +
@@ -2803,6 +2805,110 @@ function mostrarToast(msg) {
   t.textContent = msg;
   t.classList.add("show");
   setTimeout(function() { t.classList.remove("show"); }, 2200);
+}
+
+/* =========================================================================
+ * v303.467: RECEPTOR AUTOMÁTICO VIA GOOGLE FORMS
+ * Quando o cliente clica em "Copiar Resultado" ou "Enviar via WhatsApp",
+ * os dados são silenciosamente postados no Google Form (planilha vinculada).
+ * Funciona apenas se o cliente tiver internet no momento do clique.
+ * ========================================================================= */
+var GFORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScxiljS8RFSgnalKMtRalKbPVTJtEVLfDOrslGuFq5JK8Lhgw/formResponse";
+var GFORM_FIELDS = {
+  id_avaliacao:              "entry.429446788",
+  cliente:                   "entry.1113849968",
+  evento:                    "entry.677189143",
+  local:                     "entry.273053813",
+  data_inicio:               "entry.1331467858",
+  data_fim:                  "entry.260779583",
+  total_pessoas:             "entry.1299253921",
+  total_blocos:              "entry.1310966857",
+  nota_geral:                "entry.2136927685",
+  nota_atendimento:          "entry.536182705",
+  nota_uniforme:             "entry.1516121390",
+  nota_pontualidade:         "entry.257851572",
+  nota_postura:              "entry.794228033",
+  nota_organizacao:          "entry.1474583190",
+  nota_comunicacao:          "entry.2025736131",
+  pontos_positivos:          "entry.666396224",
+  pontos_a_melhorar:         "entry.1766331879",
+  comentario_geral:          "entry.1772682015",
+  avaliado_por:              "entry.804177654",
+  avaliacao_individual_json: "entry.872247552",
+  avaliacao_por_dia_json:    "entry.38560318",
+  enviado_em:                "entry.294812066"
+};
+
+function gformAppend(fd, campo, valor) {
+  if (GFORM_FIELDS[campo]) {
+    fd.append(GFORM_FIELDS[campo], valor == null ? "" : String(valor));
+  }
+}
+
+function enviarParaGoogleForms(p) {
+  // ID único pra essa avaliação (cliente + data + timestamp)
+  var idAval = (p.cliente || "AVAL") + "-" +
+               (p.data_evento || "").replace(/-/g, "") + "-" +
+               Date.now().toString(36);
+
+  // Conta pessoas únicas avaliadas
+  var nomes = {};
+  (p.avaliacoes_individuais || []).forEach(function(a) {
+    if (a.nome) nomes[a.nome] = 1;
+  });
+  (p.avaliacoes_supervisao || []).forEach(function(a) {
+    if (a.nome) nomes[a.nome] = 1;
+  });
+  var totalPessoas = Object.keys(nomes).length;
+
+  // Junta avaliações individuais + supervisão num único JSON
+  var todasIndivs = [];
+  (p.avaliacoes_individuais || []).forEach(function(a) {
+    todasIndivs.push({
+      nome: a.nome, cpf: a.cpf, nota: a.nota,
+      comentario: a.comentario, tipo: "individual"
+    });
+  });
+  (p.avaliacoes_supervisao || []).forEach(function(a) {
+    todasIndivs.push({
+      nome: a.nome, cpf: a.cpf, nota: a.nota,
+      comentario: a.comentario, tipo: "supervisao"
+    });
+  });
+
+  var fd = new FormData();
+  gformAppend(fd, "id_avaliacao",      idAval);
+  gformAppend(fd, "cliente",           p.cliente || "");
+  gformAppend(fd, "evento",            p.evento || "");
+  gformAppend(fd, "local",             p.local || "");
+  gformAppend(fd, "data_inicio",       p.data_evento || "");
+  gformAppend(fd, "data_fim",          p.data_fim || p.data_evento || "");
+  gformAppend(fd, "total_pessoas",     totalPessoas);
+  gformAppend(fd, "total_blocos",      (p.avaliacoes_por_dia || []).length || 1);
+  gformAppend(fd, "nota_geral",        p.nota_geral);
+  gformAppend(fd, "nota_atendimento",  p.nota_atendimento);
+  gformAppend(fd, "nota_uniforme",     p.nota_uniforme);
+  gformAppend(fd, "nota_pontualidade", p.nota_pontualidade);
+  gformAppend(fd, "nota_postura",      p.nota_postura);
+  gformAppend(fd, "nota_organizacao",  p.nota_organizacao);
+  gformAppend(fd, "nota_comunicacao",  p.nota_comunicacao);
+  gformAppend(fd, "pontos_positivos",  p.pontos_positivos || "");
+  gformAppend(fd, "pontos_a_melhorar", p.pontos_melhorar || "");
+  gformAppend(fd, "comentario_geral",  p.comentario_geral || "");
+  gformAppend(fd, "avaliado_por",      p.avaliado_por || "");
+  gformAppend(fd, "avaliacao_individual_json", JSON.stringify(todasIndivs));
+  gformAppend(fd, "avaliacao_por_dia_json",    JSON.stringify(p.avaliacoes_por_dia || []));
+  gformAppend(fd, "enviado_em",        p.data_avaliacao || new Date().toISOString());
+
+  // Envia em modo no-cors (Google não retorna resposta legível, mas o envio acontece)
+  fetch(GFORM_URL, {
+    method: "POST",
+    mode: "no-cors",
+    body: fd
+  }).catch(function(err) {
+    // Falha silenciosa — cliente continua tendo Copiar/WhatsApp como fallback
+    console.warn("Receptor GForms falhou:", err);
+  });
 }
 </script>
 
