@@ -1,0 +1,529 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light">
+<title>Avaliação · OVO PRODUCOES · COQUETEL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:only light;--green:#12a35a;--greenD:#0d8a49;--greenBg:#eef9f1;--blue:#00B5FF;--inter:#FF7A00;--pix:#00AA9C;--muted:#8a8f98;--line:#e9ecef;--dark:#0a0a0a}
+html{scroll-behavior:smooth}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Poppins',system-ui,Arial,sans-serif;background:#fff;color:#0f1115;padding:22px 12px 46px;-webkit-font-smoothing:antialiased}
+.wrap{display:flex;width:100%;max-width:794px;margin:0 auto;border-radius:14px;overflow:hidden;box-shadow:0 10px 34px rgba(0,0,0,.14)}
+.sidebar{width:200px;flex:none;background:#0a0a0a;color:#fff;padding:20px 15px;display:flex;flex-direction:column}
+.sb-onum{color:var(--green);font-weight:800;font-size:15px;line-height:1.2}
+.sb-osub{color:#8a93a0;font-size:11px;margin:3px 0 18px}
+.sb-h{color:#8a93a0;font-size:11px;font-weight:700;letter-spacing:.4px;margin-bottom:8px;text-transform:uppercase}
+.sb-fp{display:flex;align-items:center;gap:8px;background:#141414;border-left:3px solid var(--blue);border-radius:6px;padding:9px 12px;margin:0 0 16px;font-weight:700;color:#fff;font-size:13px}
+.sb-fpi{width:20px;height:20px;border-radius:50%;background:var(--blue);color:#062a33;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.sb-dia{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid #1b1b1b}
+.sb-dot{width:9px;height:9px;border-radius:50%;background:var(--green);flex:none}
+.sb-di{flex:1;min-width:0}
+.sb-dia .dt{font-weight:700;font-size:12.5px}
+.sb-dia .sm{color:#8a93a0;font-size:10.5px;margin-top:1px}
+.sb-dia .db{background:#1a1a1a;border-radius:8px;padding:3px 8px;font-size:10px;font-weight:600;white-space:nowrap}
+.sb-tot{margin-top:auto;padding-top:14px}
+.sb-tv{font-weight:800;font-size:15px}
+.main{max-width:560px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 10px 34px rgba(0,0,0,.14)}
+.folha{margin-top:26px;scroll-margin-top:14px}
+.rel-top{display:flex;gap:18px;align-items:flex-start;margin-bottom:10px}
+.rel-left{flex:1;min-width:0}
+.rel-right{flex:none;width:186px;text-align:center}
+.rel-emp{font-weight:800;font-size:15px;margin:3px 0 1px}
+.rel-sub{color:var(--muted);font-size:10px;margin-top:1px}
+.rel-left .parc{padding:8px 11px;margin:10px 0}
+.rel-left .parc .tt{font-size:12px}.rel-left .parc .val{font-size:18px}.rel-left .parc .vc{font-size:9px}
+.rel-left .btn{width:100%;padding:10px;font-size:12.5px}
+.pixrow{display:flex;gap:12px;align-items:stretch;margin-bottom:2px}
+.pixrow .parc{flex:1;margin:0;padding:5px 13px}
+.pixrow .parc .tt{font-size:12px}
+.pixrow .parc .vc{font-size:9px;margin-top:0}
+.pixrow .parc .val{font-size:17px}
+.pixrow .btn{flex:none;width:auto;white-space:nowrap;padding:6px 18px;font-size:12px;display:flex;align-items:center;justify-content:center}
+.qr-sm{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px;display:inline-block}
+.qr-sm img{width:150px;height:150px;display:block}
+@media print{.folha{page-break-before:always}body{padding:0}}
+.header{background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px}
+.header .logo img{height:54px;display:block}
+.header .logo .sl{font-size:6.5px;letter-spacing:.08em;color:#9aa0ab;margin-top:2px;font-weight:600}
+.header .fx{text-align:right}.header .fx .t{color:var(--green);font-weight:800;font-size:15px}
+.header .fx .c{font-size:8.5px;color:#aab0bd;line-height:1.7;margin-top:2px}
+/* v305_1160: linhas de contato com ícone clicável à direita */
+.header .fx .cl{display:flex;align-items:center;justify-content:flex-end;gap:2px;line-height:1.7}
+/* v305_1161: ícones discretos — sem caixa, do tamanho do texto */
+.header .fx .cic{flex:none;display:inline-flex;align-items:center;justify-content:center;padding:3px;background:transparent;color:#8b93a0;text-decoration:none;transition:.15s}
+.header .fx .cic svg{width:9.5px;height:9.5px;display:block}
+.header .fx .cic:hover{color:var(--green)}
+.content{padding:14px 18px 16px;flex:1}
+.lb{font-size:8.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 8px}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:7px 20px}
+.fld .k{font-size:9px;color:var(--muted);font-weight:600}.fld .v{font-size:12.5px;font-weight:700;line-height:1.25}
+.cli .fld .v{font-size:11px}.cli .fld.emp .v{font-size:16.5px;font-weight:800;margin-top:1px}
+.fld.full{grid-column:1/-1}
+.hr{height:1px;background:var(--line);margin:13px 0}
+.refn{font-weight:800;font-size:14px}.refn .ci{color:var(--blue)}.refit{font-size:11px;color:#555;margin-top:2px}
+.parc{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--greenBg);border:1.5px solid #c8ecd6;border-radius:11px;padding:12px 14px;margin:13px 0}
+.parc .tt{font-weight:800;font-size:14px}.parc .tt small{color:var(--green)}
+.parc .vc{font-size:10.5px;color:#5a6b60;margin-top:1px}.parc .val{font-weight:800;font-size:23px;color:var(--greenD)}
+.qrwrap{display:flex;flex-direction:column;align-items:center}
+.qr{padding:12px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.qr img{display:block;width:198px;height:198px;image-rendering:pixelated}
+.qleg{font-size:10px;color:var(--muted);margin:7px 0 11px}
+.copia{display:flex;align-items:center;gap:11px;background:#fff;border:1.5px solid #cdeed9;border-radius:11px;padding:10px 13px;margin-bottom:10px}
+.copia .pic img{width:26px;height:26px;display:block}
+.btn .bi{width:18px;height:18px;flex:none}
+.copia .cc{flex:1;font-family:'JetBrains Mono',monospace;font-size:8.5px;line-height:1.5;color:#555;word-break:break-all;user-select:all}
+.btn{width:100%;border:none;border-radius:11px;padding:14px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:700;font-size:14.5px;cursor:pointer;background:var(--pix);color:#fff;transition:.15s}
+.btn:hover{filter:brightness(1.08)}.btn:active{transform:scale(.98)}.btn.done{background:var(--dark)}
+.perdias{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px;margin-top:2px}
+.dcard{border:1px solid var(--line);border-radius:8px;padding:7px 4px;text-align:center}
+.dcard .dd{font-weight:800;font-size:12px}.dcard .sx{font-size:7.5px;color:var(--muted);margin-top:1px}
+.dcard .di{font-size:8.5px;font-weight:700;color:var(--greenD);margin-top:2px}
+a.dcard{display:block;text-decoration:none;color:inherit}
+.dcard.lnk{cursor:pointer;transition:.15s}
+.dcard.lnk:hover{border-color:var(--green);box-shadow:0 4px 14px rgba(18,163,90,.18);transform:translateY(-1px)}
+.dcard.lnk .dgo{font-size:7px;font-weight:700;letter-spacing:.03em;color:var(--green);margin-top:3px;text-transform:uppercase}
+.pertot{display:flex;justify-content:space-between;align-items:center;background:#0a0a0a;color:#fff;border-radius:10px;padding:11px 14px;margin-top:10px}
+.pertot .k{font-size:9px;letter-spacing:.1em;color:#8a90a0;font-weight:700;text-transform:uppercase}
+.pertot .v{font-weight:800;font-size:15px}.pertot .v b{color:var(--green)}
+.aviso{display:flex;gap:9px;background:#fff8ea;border:1px solid #f3e2b8;border-radius:10px;padding:10px 12px;margin:14px 0 0}
+/* v305_1107 (ANDERSON): a mensagem de agradecimento só aparece DEPOIS
+   do envio, com um fade suave. */
+.aviso-obrigado[hidden]{display:none;}
+.aviso-obrigado{opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;}
+.aviso-obrigado.show{opacity:1;transform:translateY(0);}
+.aviso .ic{width:18px;height:18px;border-radius:50%;background:var(--inter);color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.aviso .tx{font-size:9px;color:#7a6a3a;line-height:1.55}
+.footer{background:var(--dark);color:#fff;display:flex;align-items:center;gap:12px;padding:13px 18px;margin-top:auto}
+.footer .il img{height:26px;display:block}
+.footer h3{color:var(--inter);font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.footer .l1{font-size:10px;font-weight:600}.footer .l2{font-size:10px;color:#c7ccd4;margin-top:1px}.fbrow{display:flex;flex-wrap:wrap;align-items:baseline}.fbrow>span+span::before{content:"|";margin:0 6px;opacity:.45}.fbrow.dash>span+span::before{content:"4"}
+/* v305_1110 (ANDERSON): rodapé agora é SÓ a barra de ícones (sem
+   texto). Tiro o padding do footer pra a barra encostar nas bordas e
+   os 5 quadrados ocuparem o rodapé inteiro. */
+.footer{flex-direction:column;align-items:stretch;gap:0;padding:0 !important;}
+/* v305_1155 (ANDERSON): o bloco de dados bancários precisa do
+   respiro de volta (o padding:0 acima é só pra barra de ícones). */
+.footer .fbank{display:flex;align-items:center;gap:12px;padding:13px 18px;}
+.fbank .pixkey{margin-left:auto;flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:none;border-radius:11px;padding:7px 11px;cursor:pointer;transition:.15s;font:inherit;}
+.fbank .pixkey img{height:30px;display:block;pointer-events:none}
+.fbank .pixkey span{font-size:10px;color:#c7ccd4;font-weight:600;white-space:nowrap;letter-spacing:0;text-transform:none}
+.fbank .pixkey:hover{background:rgba(0,170,156,.16)}
+.fbank .pixkey.done{background:var(--pix)}
+.fbank .pixkey.done span{color:#fff}
+.fbank>div:not(.pixkey):not(.il){min-width:0}
+/* v305_1156: em tela estreita o botão desce pra não espremer o texto */
+@media(max-width:430px){.footer .fbank{display:grid;grid-template-columns:1fr auto;grid-template-areas:"logo pix" "txt txt";align-items:center;column-gap:10px;row-gap:11px;padding:12px 14px}.footer .fbank>.il{grid-area:logo}.footer .fbank>div:not(.il){grid-area:txt}.footer .fbank>.pixkey{grid-area:pix}.footer .fbrow{display:block}.footer .fbrow>span{display:block}.footer .fbrow>span+span::before{content:none;margin:0}.footer .l1,.footer .l2{font-size:11px;line-height:1.5}.footer .l2{margin-top:4px}.fbank .pixkey{margin-left:0;flex-direction:row;gap:7px;padding:8px 13px}.fbank .pixkey img{height:26px}}
+.social-bar{display:flex;align-items:stretch;gap:0;width:100%;margin:0;}
+.social-ic{flex:1 1 20%;display:inline-flex;align-items:center;justify-content:center;height:64px;border-radius:0;color:#fff;background:transparent;border-left:1px solid rgba(255,255,255,.08);transition:background .15s,color .15s;text-decoration:none;}
+.social-ic:first-child{border-left:0;}
+.social-ic svg{width:28px;height:28px;display:block;}
+.social-ic:hover{background:#00b6ff;color:#fff;}
+.dsec{border:1.5px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden}
+.dsh{background:var(--dark);padding:10px 13px}
+.dst{font-weight:800;font-size:14px;color:#fff}
+.dss{font-size:10px;color:#fff;margin-top:1px}
+.etab{width:100%;border-collapse:collapse;font-size:10px}
+.etab th{text-align:left;color:var(--muted);font-weight:700;font-size:8.5px;letter-spacing:.04em;padding:8px 8px 5px;text-transform:uppercase}
+.etab td{padding:6px 8px;border-top:1px solid #f0f2f4;vertical-align:top}
+.etab .n{color:var(--muted);font-weight:700}
+.etab .nm b{font-size:11px}.etab .id{color:var(--muted);font-size:8px;margin-top:1px}
+.etab .cg{background:#eef2f6;border-radius:6px;padding:2px 7px;font-size:9px;font-weight:600}
+.etab .st{color:var(--greenD);font-weight:700}
+.etab .av{color:#e2b100;letter-spacing:1px;white-space:nowrap}
+.dsf{display:flex;justify-content:space-between;align-items:center;background:var(--greenBg);padding:9px 13px;border-top:1px solid #d7ecdd;font-size:10.5px}
+.dsf b{color:var(--greenD)}.dsf span{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);background:var(--pix);color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:12px;box-shadow:0 14px 44px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:.24s;z-index:99}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.totop{position:fixed;right:18px;bottom:22px;display:flex;align-items:center;gap:7px;background:var(--dark);color:#fff;font-weight:700;font-size:13px;padding:10px 16px;border:none;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.28);cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transition:.22s;z-index:98;font-family:inherit}
+.totop.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.totop:hover{filter:brightness(1.18)}.totop:active{transform:scale(.97)}
+.totop .ar{font-size:15px;line-height:1;color:var(--green)}
+
+.av-dia{margin:10px 0;}
+.dia-toggle{position:relative;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f4f7fb;border:1px solid #dce4ee;border-radius:14px;padding:11px 16px;cursor:pointer;font-family:inherit;}
+.dia-toggle:hover{background:#eef3fb;border-color:#3d6bd6;}
+.dia-toggle .dt-esq{display:flex;flex-direction:column;gap:1px;text-align:left;}
+.dia-toggle .dia-numero{font-size:10px;font-weight:700;letter-spacing:1.2px;color:#6b7a90;text-transform:uppercase;}
+.dia-toggle .dt-data{font-size:17px;font-weight:800;color:#1b2430;line-height:1.15;}
+.dt-info{font-size:11px;color:#8b98a9;margin-top:1px;font-weight:600;}
+.dia-chevron{color:#6b7a90;font-size:18px;transition:transform .2s;}
+.dia-toggle[aria-expanded="true"]{border-color:#3d6bd6;background:#eef3fb;border-bottom-left-radius:0;border-bottom-right-radius:0;}
+.dia-toggle[aria-expanded="true"] .dia-chevron{transform:rotate(180deg);color:#3d6bd6;}
+.dia-conteudo{border:1px solid #dce4ee;border-top:0;border-radius:0 0 14px 14px;padding:16px;background:#fff;}
+.dia-conteudo[hidden]{display:none;}
+.av-equipe{background:#f8fafd;border:1px solid #e6edf6;border-radius:12px;padding:16px;text-align:center;}
+/* v305_1102 (ANDERSON): o "Avalie a equipe" (nota do dia) fica
+   centralizado, mas o título "Equipe do dia" e os nomes que agora
+   moram dentro do MESMO card voltam a ser alinhados à esquerda. */
+.av-equipe .av-indiv-tt,
+.av-equipe .av-bloco,
+.av-equipe .abh,
+.av-equipe .av-pessoa,
+.av-equipe .av-pessoa-wrap{text-align:left;}
+.av-equipe .av-indiv-tt{margin-top:18px;}
+/* v305_1103 (ANDERSON): botão flutuante de FECHAR o dia, fixo no canto
+   inferior direito — pra quando o dia tem muitos nomes e rolar até o
+   topo pra fechar seria ruim. */
+.fab-fechar-dia{position:fixed;right:20px;bottom:64px;z-index:9999;display:inline-flex;align-items:center;gap:8px;background:#00b6ff;color:#fff;border:0;border-radius:999px;padding:12px 18px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.45);opacity:0;transform:translateY(14px);transition:opacity .2s,transform .2s;}
+.fab-fechar-dia.show{opacity:1;transform:translateY(0);}
+.fab-fechar-dia:hover{background:#0aa0e0;}
+.fab-fechar-dia .fab-x{font-size:15px;line-height:1;}
+.fab-fechar-dia[hidden]{display:none;}
+.ae-tt{font-weight:700;color:#1b2430;font-size:15px;}
+.ae-sub{color:#6b7a90;font-size:13px;margin:4px 0 10px;}
+.estrelas{display:flex;gap:6px;justify-content:center;font-size:34px;color:#d3dae5;cursor:pointer;}
+/* v305_1072/1073 (ANDERSON): BARRA gradiente + ANEL + PALAVRA,
+   empilhado (opção B). */
+.slider-wrap{display:flex;align-items:center;gap:12px;}
+.slider-nota{-webkit-appearance:none;appearance:none;background:transparent;margin:0;cursor:pointer;flex:1;min-width:0;}
+.slider-nota::-webkit-slider-runnable-track{height:11px;border-radius:99px;box-shadow:inset 0 0 0 1px #1c2128;
+  background:linear-gradient(90deg,#f85149 0%,#fb8c00 25%,#f5b301 50%,#3fb950 75%,#238636 100%);}
+.slider-nota.zerado::-webkit-slider-runnable-track{background:#2c3440;}
+.slider-nota::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-7px;border-radius:50%;
+  background:#fff;border:4px solid #000;box-shadow:0 0 0 2px #fff,0 2px 6px rgba(0,0,0,.6);cursor:grab;}
+.slider-nota::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.1);}
+.slider-nota::-moz-range-track{height:11px;border-radius:99px;background:linear-gradient(90deg,#f85149,#fb8c00,#f5b301,#3fb950,#238636);}
+.slider-nota.zerado::-moz-range-track{background:#2c3440;}
+.slider-nota::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid #000;box-shadow:0 0 0 2px #fff;}
+.slider-face{display:inline-flex;align-items:center;gap:9px;flex:0 0 auto;}
+.anel{width:46px;height:46px;}
+.anel.mini{width:34px;height:34px;}
+.an-bg{fill:none;stroke:#22272e;stroke-width:5;}
+.an-fg{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dasharray .18s,stroke .18s;}
+.anel text{font-family:inherit;font-size:15px;font-weight:800;text-anchor:middle;fill:#e6edf3;}
+.anel.mini text{font-size:17px;}
+.sf-pal{font-weight:800;font-size:14px;min-width:74px;transition:color .18s;}
+.anel.mini + .sf-pal,.sl-mini .sf-pal{font-size:12px;min-width:60px;}
+/* empilhado: o texto do critério em cima, a barra ocupando a largura */
+.crit{flex-direction:column;align-items:stretch;gap:10px;}
+/* v305_1077 (ANDERSON): linha de cima do critério = texto à esquerda +
+   balão de observação no canto superior DIREITO. */
+.crit-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;align-self:stretch !important;width:100% !important;}
+.crit-top .btn-msg-crit{flex:0 0 auto;margin-top:-2px;}
+/* v305_1078 (ANDERSON): balão do critério MAIOR (o do colaborador
+   continua 18px). */
+.btn-msg-crit svg{width:24px !important;height:24px !important;}
+.btn-msg-crit{padding:5px !important;}
+.msg-crit{margin:0;align-self:stretch !important;width:100% !important;}
+.msg-crit[hidden]{display:none;}
+.msg-criterio{width:100%;box-sizing:border-box;border:1px solid #2c3440;border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;resize:vertical;}
+/* v305_1074 (ANDERSON): nome do critério + descrição SEMPRE à esquerda
+   (as regras da fatura têm especificidade maior → !important). */
+.crit-txt{text-align:left !important;align-self:flex-start;}
+.crit-k,.crit-d{text-align:left !important;}
+/* v305_1075 (ANDERSON): nome do critério um pouco maior. */
+.crit-k{font-size:16px !important;}
+.crit-nota{width:100%;}
+.crit-nota .slider-wrap{width:100%;}
+.sl-grande{width:100%;}
+.sl-mini{width:100%;margin-top:8px;}
+.estrelas .star{transition:color .1s,transform .1s;}
+.estrelas .star:hover{transform:scale(1.15);}
+.estrelas .star.on{color:#f5b301;}
+.coment-dia{width:100%;margin-top:12px;border:1px solid #dce4ee;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;}
+.av-indiv-tt{margin:16px 0 8px;font-weight:600;color:#3d6bd6;font-size:13px;}
+.av-bloco{border:1px solid #e6edf6;border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+.abh{font-size:12px;font-weight:600;color:#6b7a90;margin-bottom:6px;}
+.av-pessoa{display:flex;justify-content:space-between;padding:12px 0;border-top:1px dashed #eef2f7;}
+.av-pessoa:first-of-type{border-top:0;}
+.apn{font-weight:600;color:#1b2430;font-size:14px;}
+.apc{font-size:11px;color:#6b7a90;background:#f0f4fa;padding:2px 8px;border-radius:6px;}
+/* v305_1067: estrelas ao lado de cada colaborador */
+.av-pessoa{align-items:center;}
+.ap-dir{display:flex;align-items:center;gap:10px;}
+.estrelas.mini{font-size:22px;gap:3px;}
+.av-sem-nome{font-size:12px;color:#8b98a9;font-style:italic;padding:6px 0 2px;}
+/* v305_1068: ícone de mensagem por colaborador */
+/* v305_1101 (ANDERSON): "melhore a divisão entre os nomes, aumente um
+   pouco a distância entre nomes, e coloque uma linha melhor separando".
+   Troquei o tracejado por uma linha SÓLIDA sutil e dei mais respiro
+   (padding maior no wrap). */
+.av-pessoa-wrap{border-top:1px solid #eef2f7;padding:6px 0;}
+.av-pessoa-wrap:first-of-type{border-top:0;padding-top:0;}
+.av-pessoa-wrap .av-pessoa{border-top:0;}
+.btn-msg{background:transparent;border:0;cursor:pointer;padding:4px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:#6b7a90;transition:color .15s,background .15s;}
+.btn-msg svg{width:18px;height:18px;display:block;}
+.btn-msg:hover{color:#6ea8fe;background:#12161c;}
+.btn-msg.ativo{color:#6ea8fe;background:#132a4a;}
+.btn-msg.preenchido{color:#238636;}
+.msg-pessoa{padding:0 0 10px;}
+.msg-pessoa[hidden]{display:none;}
+.msg-colab{width:100%;box-sizing:border-box;border:1px solid #2c3440;border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;resize:vertical;}
+/* v305_1037: chips do resumo */
+.av-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px;}
+.av-chips .chip{background:#f0f4fa;border:1px solid #e0e8f2;color:#3a4759;font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;}
+.av-chips .chip.azul{background:#e8f0fe;border-color:#c7dbfb;color:#2f6bd6;}
+/* v305_1037: avaliação geral (7 critérios) */
+.av-geral{margin:6px 0;}
+.ag-tt{font-weight:700;color:#2f6bd6;font-size:16px;}
+.ag-sub{color:#6b7a90;font-size:13px;font-style:italic;margin:2px 0 10px;}
+.crit{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid #eef2f7;}
+.crit:last-child{border-bottom:0;}
+.crit-k{font-weight:700;color:#1b2430;font-size:14px;}
+.crit-d{color:#8b97a8;font-size:12px;margin-top:2px;}
+.estrelas.medias{font-size:29px;gap:5px;flex:0 0 auto;}
+/* v305_1052: número (1-5) ao lado das estrelas + média geral */
+.crit-nota{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+.crit-num{min-width:16px;text-align:center;font-weight:800;font-size:17px;color:#f5b301;}
+.crit.media-geral{border-top:2px solid #2c3440;border-bottom:0;margin-top:4px;padding-top:14px;}
+.crit.media-geral .crit-k{color:#6ea8fe;}
+.media-val{font-size:26px;font-weight:800;color:#f5b301;}
+.media-de5{font-size:13px;color:#8b98a9;margin-left:2px;}
+/* v305_1053: card de média CENTRALIZADO */
+.media-geral-card{text-align:center;margin-top:10px;padding-top:18px;}
+.media-geral-card .mg-tt{color:#6ea8fe;font-weight:800;font-size:18px;}
+.media-geral-card .mg-nota{margin:6px 0 2px;}
+.media-geral-card .media-val{font-size:44px;font-weight:800;color:#f5b301;line-height:1;}
+.media-geral-card .media-de5{font-size:16px;color:#8b98a9;margin-left:4px;}
+.media-geral-card .mg-sub{color:#8b98a9;font-size:13px;}
+.media-geral-card .mg-cnt{color:#5c6773;font-size:11px;margin-top:3px;}
+/* v305_1037: comentários finais */
+.av-finais{background:#f8fafd;border:1px solid #e6edf6;border-radius:12px;padding:16px;margin:8px 0 4px;}
+.af-tt{font-weight:700;color:#2f6bd6;font-size:15px;margin-bottom:10px;}
+/* v305_1106 (ANDERSON): "aumenta um pouco a distância entre esses
+   comentários finais". O espaço entre um campo e o próximo vem da
+   margem de cima do label — subi de 12px pra 22px. O primeiro label
+   não ganha o espaço extra (já tem o título logo acima). */
+.af-lb{display:block;font-size:13px;font-weight:600;color:#3a4759;margin:22px 0 5px;}
+/* v305_1119 (ANDERSON): botões Sim/Talvez/Não da indicação (NPS). */
+.indica-wrap{display:flex;gap:10px;}
+.indica-op{flex:1;padding:12px 8px;border-radius:10px;border:1px solid #dce4ee;background:#f4f7fb;font-family:inherit;font-size:14px;font-weight:700;color:#3a4759;cursor:pointer;transition:all .15s;}
+.indica-op:hover{border-color:#3d6bd6;}
+.indica-op.sel{background:#00b6ff;border-color:#00b6ff;color:#fff;}
+.av-finais .af-tt + .af-lb{margin-top:6px;}
+.av-finais textarea,.af-input{width:100%;border:1px solid #dce4ee;border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;box-sizing:border-box;}
+.av-finais textarea{resize:vertical;}
+
+/* ===================================================================
+   v305_1038 (ANDERSON): TEMA ESCURO (fundo preto) — override aplicado
+   SÓ na página de avaliação (herda o layout da fatura, mas troca as
+   cores claras por escuras). A fatura via Pix NÃO é afetada.
+   =================================================================== */
+body{background:#000 !important;color:#e6edf3 !important;
+     padding:0 0 0 !important;}
+.main{max-width:100% !important;border-radius:0 !important;}
+/* v305_1049 (ANDERSON): logo MAIOR no cabeçalho da avaliação */
+.header .logo img,.logo img{height:64px !important;}
+.main{background:#000 !important;box-shadow:none !important;
+      border:0 !important;}
+.header{background:#000 !important;border-bottom:1px solid #1c2128;}
+.footer{background:#000 !important;border-top:1px solid #1c2128;}
+.header .t{color:#fff !important;}
+.header .c,.sl{color:#8b98a9 !important;}
+.footer h3{color:#6ea8fe !important;}
+.footer .l1{color:#e6edf3 !important;}
+.footer .l2{color:#9aa6b5 !important;}
+.content{background:#000;}
+.btn{background:#1f6feb !important;color:#fff !important;border:0 !important;
+     border-radius:10px !important;font-weight:700 !important;}
+.btn:hover{background:#388bfd !important;}
+.btn.done{background:#238636 !important;}
+.lb{color:#8b98a9 !important;}
+.hr{background:#232a33 !important;}
+.refit{color:#9aa6b5 !important;}
+.info .fld .k,.info .k{color:#8b98a9 !important;}
+.info .fld .v,.info .v{color:#e6edf3 !important;}
+.aviso{background:#000 !important;border-color:#33404f !important;color:#cbd5e2 !important;}
+.aviso .tx{color:#cbd5e2 !important;}
+/* chips */
+.av-chips .chip{background:#0a0a0a;border-color:#2c3440;color:#c3ccd8;}
+.av-chips .chip.azul{background:#132a4a;border-color:#1d3f6b;color:#7db1ff;}
+/* avaliação geral (7 critérios) */
+.ag-tt{color:#6ea8fe;}
+.ag-sub{color:#9aa6b5;}
+.crit{border-bottom-color:#232a33;}
+.crit-k{color:#e6edf3;}
+.crit-d{color:#8b98a9;}
+.estrelas{color:#3a434f;}
+.estrelas .star.on{color:#f5b301;}
+/* accordion dos dias */
+.dia-toggle{background:#0a0a0a !important;border-color:#1c2128 !important;}
+.dia-toggle:hover{background:#0f0f0f !important;border-color:#3d6bd6 !important;}
+.dia-toggle .dia-numero{color:#8b98a9 !important;}
+.dia-toggle .dt-data{color:#f2f5f9 !important;}
+.dia-chevron{color:#8b98a9 !important;font-size:32px !important;line-height:1 !important;}
+.dia-toggle[aria-expanded="true"]{background:#0a0a0a !important;border-color:#3d6bd6 !important;}
+.dia-conteudo{background:#0a0a0a !important;border-color:#1c2128 !important;}
+.av-equipe{background:#000 !important;border-color:#1c2128 !important;}
+.ae-tt{color:#e6edf3;}
+.ae-sub{color:#9aa6b5;}
+.av-indiv-tt{color:#6ea8fe;}
+.av-bloco{background:#000 !important;border-color:#1c2128 !important;}
+.abh{color:#9aa6b5;}
+.av-pessoa{border-top-color:#232a33;}
+/* v305_1101 (ANDERSON): linha sólida sutil entre colaboradores no
+   tema escuro (a divisória do wrap). */
+.av-pessoa-wrap{border-top-color:#1c2430 !important;}
+.apn{color:#e6edf3;}
+.apc{background:#232b36;color:#a9b4c2;}
+/* comentários finais */
+.av-finais{background:#000 !important;border-color:#1c2128 !important;}
+.af-tt{color:#6ea8fe;}
+.af-lb{color:#c3ccd8;}
+/* v305_1119: indicação no tema escuro */
+.indica-op{background:#0a0a0a !important;border-color:#2c3440 !important;color:#c3ccd8 !important;}
+.indica-op.sel{background:#00b6ff !important;border-color:#00b6ff !important;color:#fff !important;}
+.av-finais textarea,.af-input{background:#0a0a0a !important;background-color:#0a0a0a !important;border-color:#2c3440 !important;color:#e6edf3 !important;}
+.av-finais textarea::placeholder,.af-input::placeholder{color:#5c6773 !important;}
+/* v305_1076 (ANDERSON): placeholder CINZA. O Chromium pinta o
+   ::-webkit-input-placeholder e o `-webkit-text-fill-color` do bloco
+   v305_1043 vazava o branco pra dentro dele → tem que sobrescrever o
+   text-fill-color TAMBÉM, e em regras SEPARADAS (se o -moz entrar na
+   mesma lista de seletores, o navegador invalida a regra inteira). */
+.content textarea::-webkit-input-placeholder,
+.content input::-webkit-input-placeholder{
+  color:#5c6773 !important;-webkit-text-fill-color:#5c6773 !important;
+  opacity:1 !important;}
+.content textarea::placeholder,
+.content input::placeholder{
+  color:#5c6773 !important;-webkit-text-fill-color:#5c6773 !important;
+  opacity:1 !important;}
+/* v305_1063: nome obrigatório + agradecimento maior */
+.obrig{color:#f85149;font-weight:800;}
+.af-erro{color:#f85149;font-size:12px;font-weight:600;margin-top:6px;}
+.af-erro[hidden]{display:none;}
+.af-input.invalido{border-color:#f85149 !important;}
+.aviso{padding:16px 18px !important;}
+.aviso .tx{font-size:15px !important;line-height:1.5 !important;color:#e6edf3 !important;font-weight:600;}
+.aviso .ic{font-size:16px !important;}
+/* inputs/textarea genéricos (comentário por dia) */
+.coment-dia{background:#0a0a0a !important;background-color:#0a0a0a !important;border-color:#2c3440 !important;color:#e6edf3 !important;}
+.coment-dia::placeholder{color:#5c6773 !important;}
+/* v305_1043 (ANDERSON): força o INTERIOR de QUALQUER campo de texto da
+   avaliação (o preenchível) pra PRETO PURO — a fatura definia um
+   fieldbackground cinza (#1c2128) que vazava pros inputs. */
+.content textarea,.content input[type="text"],
+.av-finais textarea,.av-finais input,
+.dia-conteudo textarea,.dia-conteudo input{
+  background:#0a0a0a !important;background-color:#0a0a0a !important;
+  color:#e6edf3 !important;-webkit-text-fill-color:#e6edf3 !important;
+}
+.content textarea:focus,.content input:focus{
+  background:#0a0a0a !important;outline:none !important;
+  border:1px solid #00b6ff !important;
+}
+/* ─────────────────────────────────────────────────────────────
+   v305_1079 (ANDERSON): o AZUL da avaliação passa a ser o mesmo
+   dos "vencimentos de hoje" do sistema = #00b6ff
+   (efetivo_tks/config.py > COR_FONTE_AZUL — o ciano da logo TKS).
+   Bloco no FIM do CSS de propósito: empatando a especificidade,
+   quem vem por último vence.
+   ───────────────────────────────────────────────────────────── */
+.ag-tt{color:#00b6ff !important;}
+.af-tt{color:#00b6ff !important;}
+.av-indiv-tt{color:#00b6ff !important;}
+.media-geral-card .mg-tt{color:#00b6ff !important;}
+.crit.media-geral .crit-k{color:#00b6ff !important;}
+.footer h3{color:#00b6ff !important;}
+.av-chips .chip.azul{background:#04222e !important;border-color:#0a4b63 !important;color:#00b6ff !important;}
+.btn-msg:hover{color:#00b6ff !important;}
+.btn-msg.ativo{color:#00b6ff !important;background:#04222e !important;}
+.dia-toggle:hover{border-color:#00b6ff !important;}
+.dia-toggle[aria-expanded="true"]{border-color:#00b6ff !important;}
+.dia-toggle[aria-expanded="true"] .dia-chevron{color:#00b6ff !important;}
+</style></head><body>
+<div class="main">
+  <div class="header"><div class="logo"><img src="data:image/png;base64,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" alt="TKS"></div>
+    <div class="fx"><div class="t">AVALIAÇÃO DO EVENTO</div><div class="c">CNPJ: 43.110.643/0001-09<br>contato@tksproducoes.com.br<br>21 99937-2225</div></div></div>
+  <div class="content">
+    <div class="lb">Cliente</div><div class="info cli"><div class="fld emp"><div class="k">Empresa</div><div class="v">OVO PRODUCOES</div></div><div class="fld "><div class="k">Evento</div><div class="v">COQUETEL</div></div><div class="fld "><div class="k">Local</div><div class="v">TEATRO CARLOS GOMES</div></div><div class="fld "><div class="k">Período</div><div class="v">23/07/2026</div></div><div class="fld "><div class="k">Pedido</div><div class="v">Nº 1210</div></div><div class="fld "><div class="k">Solicitante</div><div class="v">PAULO DARLY</div></div><div class="fld "><div class="k">WhatsApp</div><div class="v">21 99611-3806</div></div><div class="fld "><div class="k">CNPJ</div><div class="v">14.026.768/0001-49</div></div></div>
+    <div class="av-chips"><span class="chip azul">Pedido nº 1210</span><span class="chip">📅 1 dia</span><span class="chip">👥 0 pessoas</span><span class="chip">🧱 1 bloco</span></div>
+    <div class="hr"></div>
+    <div class="av-geral"><div class="ag-tt">⭐ Avaliação geral do atendimento</div><div class="ag-sub">Como você avalia o atendimento da nossa equipe no pedido todo?</div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Atendimento / Comercial</div><div class="crit-d">Cortesia, simpatia, prontidão</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Atendimento / Comercial" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_atendimento" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_atendimento"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_atendimento" class="msg-criterio" data-crit="nota_atendimento" data-crit-nome="Atendimento / Comercial" rows="2" placeholder="Observação sobre Atendimento / Comercial (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Atendimento / Operacional</div><div class="crit-d">Execução no evento, resolução no local</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Atendimento / Operacional" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_comunicacao" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_comunicacao"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_comunicacao" class="msg-criterio" data-crit="nota_comunicacao" data-crit-nome="Atendimento / Operacional" rows="2" placeholder="Observação sobre Atendimento / Operacional (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Pontualidade</div><div class="crit-d">Equipe chegou no horário?</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Pontualidade" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_pontualidade" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_pontualidade"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_pontualidade" class="msg-criterio" data-crit="nota_pontualidade" data-crit-nome="Pontualidade" rows="2" placeholder="Observação sobre Pontualidade (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Uniforme / Apresentação</div><div class="crit-d">Roupa, higiene, postura visual</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Uniforme / Apresentação" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_uniforme" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_uniforme"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_uniforme" class="msg-criterio" data-crit="nota_uniforme" data-crit-nome="Uniforme / Apresentação" rows="2" placeholder="Observação sobre Uniforme / Apresentação (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Postura / Comportamento</div><div class="crit-d">Educação, profissionalismo</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Postura / Comportamento" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_postura" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_postura"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_postura" class="msg-criterio" data-crit="nota_postura" data-crit-nome="Postura / Comportamento" rows="2" placeholder="Observação sobre Postura / Comportamento (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Organização</div><div class="crit-d">Coordenação, fluidez</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Organização" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_organizacao" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_organizacao"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_organizacao" class="msg-criterio" data-crit="nota_organizacao" data-crit-nome="Organização" rows="2" placeholder="Observação sobre Organização (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Supervisão / Liderança</div><div class="crit-d">Coordenação da equipe, tomada de decisão</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Supervisão / Liderança" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_supervisao" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_supervisao"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_supervisao" class="msg-criterio" data-crit="nota_supervisao" data-crit-nome="Supervisão / Liderança" rows="2" placeholder="Observação sobre Supervisão / Liderança (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Proatividade da equipe</div><div class="crit-d">Iniciativa, antecipação, disposição</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Proatividade da equipe" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_proatividade" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_proatividade"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_proatividade" class="msg-criterio" data-crit="nota_proatividade" data-crit-nome="Proatividade da equipe" rows="2" placeholder="Observação sobre Proatividade da equipe (opcional)"></textarea></div></div><div class="crit"><div class="crit-top"><div class="crit-txt"><div class="crit-k">Nota Geral</div><div class="crit-d">Impressão geral sobre o serviço prestado</div></div><button type="button" class="btn-msg btn-msg-crit" onclick="toggleMsgCrit(this)" title="Deixar uma observação sobre Nota Geral" aria-label="Observação"><svg viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd"><path d="M5 3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-6.2l-4.6 4.6a.7.7 0 0 1-1.2-.5V17H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM6.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM10.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0zM14.4 10a1.6 1.6 0 1 0 3.2 0 1.6 1.6 0 1 0-3.2 0z"/></svg></button></div><div class="crit-nota"><div class="slider-wrap sl-medio"><input type="range" class="slider-nota zerado" id="nota_geral" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota_geral"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div></div><div class="msg-crit" hidden><textarea id="msg_nota_geral" class="msg-criterio" data-crit="nota_geral" data-crit-nome="Nota Geral" rows="2" placeholder="Observação sobre Nota Geral (opcional)"></textarea></div></div><div class="media-geral-card"><div class="mg-tt">Média geral</div><div class="mg-nota"><span class="media-val" id="media_geral_val">–</span><span class="media-de5">/ 5</span></div><div class="mg-sub">Média considerando os 9 critérios</div><div class="mg-cnt" id="media_geral_cnt">0 de 9 critérios avaliados</div></div></div>
+    <div class="hr"></div>
+    <div class="ag-tt">⭐ Avaliação por dia &amp; equipe</div>
+    <div class="ag-sub">Clique num dia pra abrir e avaliar a equipe daquele dia (opcional). 💙</div>
+    <div class="av-dia" data-muitos="false"><button type="button" class="dia-toggle" aria-expanded="false" onclick="toggleDia(this)"><span class="dt-esq"><span class="dia-numero">DIA 1 DE 1</span><span class="dt-data">23/07/2026</span><span class="dt-info">Quinta  •  Teatro Carlos Gomes  •  3 pessoas</span></span><span class="dia-chevron">▾</span></button><div class="dia-conteudo" hidden><div class="av-equipe"><div class="ae-tt">⭐ Avalie a equipe desse dia</div><div class="ae-sub">Como foi o desempenho geral no dia 23/07/2026?</div><div class="slider-wrap sl-grande"><input type="range" class="slider-nota zerado" id="nota-dia-0" min="0" max="5" step="1" value="0" oninput="atualizarSlider(this)" aria-label="Nota de 0 a 5"><span class="slider-face" data-for="nota-dia-0"><svg class="anel" viewBox="0 0 40 40"><circle class="an-bg" cx="20" cy="20" r="16"/><circle class="an-fg" cx="20" cy="20" r="16" stroke="#5c6773" stroke-dasharray="0 100.53" data-len="100.53" transform="rotate(-90 20 20)"/><text x="20" y="25">–</text></svg><span class="sf-pal">–</span></span></div><textarea class="coment-dia" id="coment-dia-0" data-data="23/07/2026" placeholder="Comentário sobre esse dia (opcional)" rows="2"></textarea><div class="av-indiv-tt">📋 Equipe do dia · 3 pessoa(s)</div><div class="av-bloco"><div class="abh">⏰ 18:00 ·  · 📍 Teatro Carlos Gomes</div><div class="av-sem-nome">Equipe do período · 3 pessoa(s)</div></div></div></div></div>
+    <div class="av-finais"><div class="af-tt">💬 Comentários finais</div><label class="af-lb">✓ Pontos positivos / destaques</label><textarea id="pontos_positivos" rows="3" placeholder="O que foi bom no atendimento..."></textarea><label class="af-lb">⚠ Pontos a melhorar</label><textarea id="pontos_melhorar" rows="3" placeholder="Sugestões pra próximos eventos..."></textarea><label class="af-lb">📝 Comentário geral (opcional)</label><textarea id="coment_geral" rows="3" placeholder="Outras observações..."></textarea><label class="af-lb">👍 Você indicaria nossos serviços?</label><div class="indica-wrap" id="indica_wrap"><button type="button" class="indica-op" data-val="Sim" onclick="escolherIndica(this)">👍 Sim</button><button type="button" class="indica-op" data-val="Talvez" onclick="escolherIndica(this)">🤔 Talvez</button><button type="button" class="indica-op" data-val="Não" onclick="escolherIndica(this)">👎 Não</button></div><input type="hidden" id="indicaria" value=""><label class="af-lb">Seu nome <span class="obrig">*</span></label><input type="text" id="avaliador_nome" class="af-input" placeholder="Ex: João da Silva — RH Cliente"><div class="af-erro" id="erro_nome" hidden>⚠ Por favor, preencha seu nome pra enviar a avaliação.</div></div>
+    <button class="btn" id="btnEnviar">✓ Enviar avaliação</button>
+    <div class="aviso aviso-obrigado" id="avisoObrigado" hidden><span class="ic">★</span><span class="tx">Obrigado por dedicar um pouco do seu tempo para avaliar nossos serviços. Sua avaliação é muito importante, nos ajuda a buscar melhorias contínuas para oferecer um atendimento cada vez melhor.</span></div>
+  </div>
+  <div class="footer">
+    <!-- v305_1110 (ANDERSON): removido o "Obrigado pela confiança /
+         GRUPO TKS" do rodapé — fica só a barra de ícones. -->
+    <div class="social-bar">
+      <a class="social-ic" href="tel:+5521999372225" title="Telefone" aria-label="Telefone"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.7 21 3 13.3 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg></a>
+      <a class="social-ic" href="mailto:anderson@tksproducoes.com.br" title="E-mail" aria-label="E-mail"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18c.6 0 1 .4 1 1v12c0 .6-.4 1-1 1H3c-.6 0-1-.4-1-1V6c0-.6.4-1 1-1zm9 7.2 8-5.2H4l8 5.2zM4 8.5V18h16V8.5l-8 5.2-8-5.2z"/></svg></a>
+      <a class="social-ic" href="https://wa.me/5521999372225" target="_blank" rel="noopener" title="WhatsApp" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 0 1 6.6 12.5c-.2.3-.3.7-.2 1l.5 1.9-2-.5c-.3-.1-.7 0-1 .2A8 8 0 1 1 12 4zm-2.7 4.1c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.7 4.2 3.7 2.1.8 2.5.7 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3l-1.6-.8c-.2-.1-.4-.1-.6.1l-.7.9c-.1.2-.3.2-.5.1-.6-.2-1.4-.5-2.3-1.4-.7-.6-1.1-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.5c.1-.1.2-.3.2-.4.1-.1 0-.3 0-.4l-.7-1.6c-.2-.4-.3-.4-.5-.5h-.4z"/></svg></a>
+      <a class="social-ic" href="https://instagram.com/tks.producoes" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.7 0 3 0 4.1.1 1 0 1.7.2 2.3.5.6.2 1.1.5 1.6 1 .5.5.8 1 1 1.6.3.6.4 1.3.5 2.3.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.7-.5 2.3-.2.6-.5 1.1-1 1.6-.5.5-1 .8-1.6 1-.6.3-1.3.4-2.3.5-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.7-.2-2.3-.5-.6-.2-1.1-.5-1.6-1-.5-.5-.8-1-1-1.6-.3-.6-.4-1.3-.5-2.3C2 15 2 14.7 2 12s0-3 .1-4.1c0-1 .2-1.7.5-2.3.2-.6.5-1.1 1-1.6.5-.5 1-.8 1.6-1 .6-.3 1.3-.4 2.3-.5C9 2 9.3 2 12 2zm0 1.8c-2.7 0-3 0-4 .1-.8 0-1.2.2-1.5.3-.4.1-.7.3-1 .6-.3.3-.5.6-.6 1-.1.3-.2.7-.3 1.5 0 1-.1 1.3-.1 4s0 3 .1 4c0 .8.2 1.2.3 1.5.1.4.3.7.6 1 .3.3.6.5 1 .6.3.1.7.2 1.5.3 1 0 1.3.1 4 .1s3 0 4-.1c.8 0 1.2-.2 1.5-.3.4-.1.7-.3 1-.6.3-.3.5-.6.6-1 .1-.3.2-.7.3-1.5 0-1 .1-1.3.1-4s0-3-.1-4c0-.8-.2-1.2-.3-1.5-.1-.4-.3-.7-.6-1-.3-.3-.6-.5-1-.6-.3-.1-.7-.2-1.5-.3-1 0-1.3-.1-4-.1zm0 3.1a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2zm0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6zm5.3-3.1a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg></a>
+      <a class="social-ic" href="https://www.tksproducoes.com.br" target="_blank" rel="noopener" title="Site" aria-label="Site"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-2.9a15.7 15.7 0 0 0-1.3-3.4A8 8 0 0 1 18.9 8zM12 4c.8 1.1 1.4 2.5 1.8 4h-3.6c.4-1.5 1-2.9 1.8-4zM4.3 14a8 8 0 0 1 0-4h3.3a17.7 17.7 0 0 0 0 4H4.3zm.8 2h2.9c.3 1.2.8 2.4 1.3 3.4A8 8 0 0 1 5.1 16zM8 8H5.1a8 8 0 0 1 4.2-3.4C8.8 5.6 8.3 6.8 8 8zm4 12c-.8-1.1-1.4-2.5-1.8-4h3.6c-.4 1.5-1 2.9-1.8 4zm2.2-6H9.8a15.6 15.6 0 0 1 0-4h4.4a15.6 15.6 0 0 1 0 4zm.5 5.4c.5-1 1-2.2 1.3-3.4h2.9a8 8 0 0 1-4.2 3.4zm1.7-5.4a17.7 17.7 0 0 0 0-4h3.3a8 8 0 0 1 0 4h-3.3z"/></svg></a>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast">Avaliação registrada! Obrigado 💙</div>
+<script>
+function escolherIndica(btn){var w=document.getElementById('indica_wrap');if(w){var bs=w.querySelectorAll('.indica-op');for(var i=0;i<bs.length;i++)bs[i].classList.remove('sel');}btn.classList.add('sel');var h=document.getElementById('indicaria');if(h)h.value=btn.getAttribute('data-val')||'';}
+function toggleDia(btn){var ab=btn.getAttribute('aria-expanded')==='true';btn.setAttribute('aria-expanded',ab?'false':'true');var c=btn.nextElementSibling;if(c){if(ab){c.setAttribute('hidden','');esconderFabDia();}else{c.removeAttribute('hidden');setTimeout(function(){btn.scrollIntoView({behavior:'smooth',block:'nearest'});},60);var dia=btn.closest('.av-dia');if(dia&&dia.getAttribute('data-muitos')==='true')mostrarFabDia(btn);}}}
+/* v305_1103 (ANDERSON): FAB de fechar pra dias com muitos nomes. */
+function _fabDia(){var f=document.getElementById('fabFecharDia');if(!f){f=document.createElement('button');f.id='fabFecharDia';f.type='button';f.className='fab-fechar-dia';f.setAttribute('hidden','');f.innerHTML='<span class="fab-x">✕</span><span class="fab-txt">Fechar data</span>';document.body.appendChild(f);}return f;}
+var _fabAlvo=null;
+function mostrarFabDia(btn){_fabAlvo=btn;var f=_fabDia();f.onclick=function(){if(_fabAlvo){var b=_fabAlvo;if(b.getAttribute('aria-expanded')==='true')toggleDia(b);b.scrollIntoView({behavior:'smooth',block:'start'});}};f.removeAttribute('hidden');requestAnimationFrame(function(){f.classList.add('show');});}
+function esconderFabDia(){var f=document.getElementById('fabFecharDia');if(f){f.classList.remove('show');setTimeout(function(){f.setAttribute('hidden','');},200);}_fabAlvo=null;}
+function toggleMsg(btn){var wrap=btn.closest('.av-pessoa-wrap');if(!wrap)return;var box=wrap.querySelector('.msg-pessoa');if(!box)return;var aberto=!box.hasAttribute('hidden');if(aberto){box.setAttribute('hidden','');btn.classList.remove('ativo');}else{box.removeAttribute('hidden');btn.classList.add('ativo');var ta=box.querySelector('textarea');if(ta)ta.focus();}}
+document.querySelectorAll('.msg-colab').forEach(function(t){t.addEventListener('input',function(){var b=t.closest('.av-pessoa-wrap').querySelector('.btn-msg');if(b)b.classList.toggle('preenchido',!!t.value.trim());});});
+function toggleMsgCrit(btn){var wrap=btn.closest('.crit');if(!wrap)return;var box=wrap.querySelector('.msg-crit');if(!box)return;var aberto=!box.hasAttribute('hidden');if(aberto){box.setAttribute('hidden','');btn.classList.remove('ativo');}else{box.removeAttribute('hidden');btn.classList.add('ativo');var ta=box.querySelector('textarea');if(ta)ta.focus();}}
+document.querySelectorAll('.msg-criterio').forEach(function(t){t.addEventListener('input',function(){var b=t.closest('.crit').querySelector('.btn-msg-crit');if(b)b.classList.toggle('preenchido',!!t.value.trim());});});
+var _AVPAL={0:'–',1:'Ruim',2:'Fraco',3:'Regular',4:'Bom',5:'Excelente'};
+var _AVCOR={0:'#5c6773',1:'#f85149',2:'#fb8c00',3:'#f5b301',4:'#3fb950',5:'#238636'};
+function atualizarSlider(el){var v=+el.value;var f=document.querySelector('.slider-face[data-for="'+el.id+'"]');
+if(f){var fg=f.querySelector('.an-fg');if(fg){var L=+fg.getAttribute('data-len');fg.setAttribute('stroke-dasharray',(v/5*L)+' '+L);fg.setAttribute('stroke',_AVCOR[v]);}
+var tx=f.querySelector('text');if(tx)tx.textContent=v?v:'–';
+var pl=f.querySelector('.sf-pal');if(pl){pl.textContent=_AVPAL[v];pl.style.color=_AVCOR[v];}}
+el.classList.toggle('zerado',v===0);atualizarMedia();}
+document.querySelectorAll('.slider-nota').forEach(function(s){atualizarSlider(s);});
+function atualizarMedia(){var ids=['nota_atendimento','nota_uniforme','nota_pontualidade','nota_postura','nota_organizacao','nota_comunicacao','nota_supervisao','nota_proatividade','nota_geral'];var soma=0,preenchidos=0;ids.forEach(function(id){var el=document.getElementById(id);if(el){var v=+el.value;if(v>0)preenchidos++;soma+=v;}});var total=ids.length;var out=document.getElementById('media_geral_val');if(out)out.textContent=preenchidos?(soma/total).toFixed(1):'–';var cnt=document.getElementById('media_geral_cnt');if(cnt)cnt.textContent=preenchidos+' de '+total+' critérios avaliados';}
+/* ===== v305_1087 (ANDERSON): ENVIO DE VERDADE =====================
+   Antes o botão só trocava o texto e mostrava o toast — a avaliação
+   MORRIA no navegador do cliente. Agora monta o MESMO payload do
+   gerador antigo (gerador_html_avaliacao.py), posta silencioso no
+   Google Forms e abre o WhatsApp com o JSON entre os marcadores
+   [INÍCIO_AVALIACAO]/[FIM_AVALIACAO] — que é exatamente o que o
+   "📥 Importar Avaliação" do sistema sabe ler.
+   ================================================================== */
+function _nAv(id){var e=document.getElementById(id);return e?+e.value:0;}
+function _tAv(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+function montarPayload(){
+var indivs=[];document.querySelectorAll('.nota-pessoa').forEach(function(s){var w=s.closest('.av-pessoa-wrap');var ta=w?w.querySelector('.msg-colab'):null;var c=ta?ta.value.trim():'';var n=+s.value;if(n>0||c){indivs.push({nome:s.getAttribute('data-colab-nome')||'',cpf:s.getAttribute('data-colab-cpf')||'',id_colaborador:s.getAttribute('data-colab-id')||'',nota:n,comentario:c});}});
+var porDia=[];document.querySelectorAll('input[id^="nota-dia-"]').forEach(function(s){var i=s.id.replace('nota-dia-','');var ta=document.getElementById('coment-dia-'+i);var c=ta?ta.value.trim():'';var n=+s.value;if(n>0||c){porDia.push({data:(ta&&ta.getAttribute('data-data'))||'',nota:n,comentario:c});}});
+var obs=[];document.querySelectorAll('.msg-criterio').forEach(function(t){if(t.value.trim())obs.push({criterio:t.getAttribute('data-crit-nome')||'',campo:t.getAttribute('data-crit')||'',observacao:t.value.trim()});});
+return {data_evento:"2026-07-23",data_fim:"2026-07-23",oc:"1210",cliente:"OVO PRODUCOES",evento:"COQUETEL",local:"TEATRO CARLOS GOMES",nota_geral:_nAv('nota_geral'),nota_atendimento:_nAv('nota_atendimento'),nota_uniforme:_nAv('nota_uniforme'),nota_pontualidade:_nAv('nota_pontualidade'),nota_postura:_nAv('nota_postura'),nota_organizacao:_nAv('nota_organizacao'),nota_comunicacao:_nAv('nota_comunicacao'),nota_supervisao:_nAv('nota_supervisao'),nota_proatividade:_nAv('nota_proatividade'),avaliacoes_individuais:indivs,avaliacoes_por_dia:porDia,observacoes_criterios:obs,pontos_positivos:_tAv('pontos_positivos'),pontos_melhorar:_tAv('pontos_melhorar'),comentario_geral:_tAv('coment_geral'),indicaria:(document.getElementById('indicaria')||{}).value||'',avaliado_por:_tAv('avaliador_nome'),data_avaliacao:new Date().toISOString()};}
+var GFORM_URL="https://docs.google.com/forms/d/e/1FAIpQLScxiljS8RFSgnalKMtRalKbPVTJtEVLfDOrslGuFq5JK8Lhgw/formResponse";
+var GFORM_FIELDS={id_avaliacao:"entry.429446788",cliente:"entry.1113849968",evento:"entry.677189143",local:"entry.273053813",data_inicio:"entry.1331467858",data_fim:"entry.260779583",total_pessoas:"entry.1299253921",nota_geral:"entry.2136927685",nota_atendimento:"entry.536182705",nota_uniforme:"entry.1516121390",nota_pontualidade:"entry.257851572",nota_postura:"entry.794228033",nota_organizacao:"entry.1474583190",nota_comunicacao:"entry.2025736131",pontos_positivos:"entry.666396224",pontos_a_melhorar:"entry.1766331879",comentario_geral:"entry.1772682015",avaliado_por:"entry.804177654",avaliacao_individual_json:"entry.872247552",avaliacao_por_dia_json:"entry.38560318",enviado_em:"entry.294812066"};
+function gformAppend(fd,campo,valor){if(GFORM_FIELDS[campo]){fd.append(GFORM_FIELDS[campo],valor==null?"":String(valor));}}
+function enviarParaGoogleForms(p){
+/* v305_1089 (ANDERSON): o Google Form NÃO tem campo pro número do
+   orçamento nem pros critérios criados depois dele (supervisão,
+   proatividade e as observações dos balões). Sem mexer no Form, eu
+   contrabandeio essas informações em 2 campos que já existem e cujo
+   conteúdo QUEM MONTA SOU EU:
+     1) id_avaliacao  -> ganha o prefixo "OC<numero>|"
+     2) avaliacao_individual_json -> ganha um item {tipo:"extras"}
+   O avaliacoes_gforms_sync.py sabe desempacotar os dois. Linha antiga
+   sem prefixo/extras continua sendo lida normal (oc fica nulo). */
+var idAval=(p.oc?("OC"+p.oc+"|"):"")+(p.cliente||"AVAL")+"-"+(p.data_evento||"").replace(/-/g,"")+"-"+Date.now().toString(36);
+var nomes={};(p.avaliacoes_individuais||[]).forEach(function(a){if(a.nome)nomes[a.nome]=1;});
+var indivs=(p.avaliacoes_individuais||[]).map(function(a){return {nome:a.nome,cpf:a.cpf,id_colaborador:a.id_colaborador,nota:a.nota,comentario:a.comentario,tipo:"individual"};});
+indivs.push({tipo:"extras",oc:p.oc||"",nota_supervisao:p.nota_supervisao,nota_proatividade:p.nota_proatividade,observacoes_criterios:p.observacoes_criterios||[]});
+var fd=new FormData();
+gformAppend(fd,"id_avaliacao",idAval);gformAppend(fd,"cliente",p.cliente);gformAppend(fd,"evento",p.evento);gformAppend(fd,"local",p.local);
+gformAppend(fd,"data_inicio",p.data_evento);gformAppend(fd,"data_fim",p.data_fim);gformAppend(fd,"total_pessoas",Object.keys(nomes).length);
+gformAppend(fd,"nota_geral",p.nota_geral);gformAppend(fd,"nota_atendimento",p.nota_atendimento);gformAppend(fd,"nota_uniforme",p.nota_uniforme);
+gformAppend(fd,"nota_pontualidade",p.nota_pontualidade);gformAppend(fd,"nota_postura",p.nota_postura);gformAppend(fd,"nota_organizacao",p.nota_organizacao);
+gformAppend(fd,"nota_comunicacao",p.nota_comunicacao);gformAppend(fd,"pontos_positivos",p.pontos_positivos||"");gformAppend(fd,"pontos_a_melhorar",p.pontos_melhorar||"");
+gformAppend(fd,"comentario_geral",(p.comentario_geral||"")+(p.indicaria?("\n\n[INDICARIA: "+p.indicaria+"]"):""));gformAppend(fd,"avaliado_por",p.avaliado_por||"");
+gformAppend(fd,"avaliacao_individual_json",JSON.stringify(indivs));
+gformAppend(fd,"avaliacao_por_dia_json",JSON.stringify(p.avaliacoes_por_dia||[]));
+gformAppend(fd,"enviado_em",p.data_avaliacao||new Date().toISOString());
+fetch(GFORM_URL,{method:"POST",mode:"no-cors",body:fd}).catch(function(e){console.warn("GForms:",e);});}
+var toast=document.getElementById('toast');var be=document.getElementById('btnEnviar');if(be)be.onclick=function(){var nm=document.getElementById('avaliador_nome');var err=document.getElementById('erro_nome');if(!nm||!nm.value.trim()){if(err)err.removeAttribute('hidden');if(nm){nm.classList.add('invalido');nm.focus();nm.scrollIntoView({behavior:'smooth',block:'center'});}return;}if(err)err.setAttribute('hidden','');if(nm)nm.classList.remove('invalido');
+var p=montarPayload();
+if(!p.nota_geral){alert('Por favor, dê pelo menos a Nota Geral antes de enviar.');var g=document.getElementById('nota_geral');if(g)g.scrollIntoView({behavior:'smooth',block:'center'});return;}
+try{enviarParaGoogleForms(p);}catch(e){console.warn(e);}
+toast.classList.add('show');setTimeout(function(){toast.classList.remove('show');},2200);
+/* v305_1107 (ANDERSON): o botão vira "Avaliação enviada", a mensagem de
+   agradecimento (escondida até aqui) aparece, e a tela rola até ela
+   como uma âncora. */
+be.textContent='✓ Avaliação enviada';be.classList.add('done');be.disabled=true;
+var _ob=document.getElementById('avisoObrigado');if(_ob){_ob.removeAttribute('hidden');requestAnimationFrame(function(){_ob.classList.add('show');});setTimeout(function(){_ob.scrollIntoView({behavior:'smooth',block:'center'});},120);}};
+var _nm=document.getElementById('avaliador_nome');if(_nm)_nm.oninput=function(){if(_nm.value.trim()){var e=document.getElementById('erro_nome');if(e)e.setAttribute('hidden','');_nm.classList.remove('invalido');}};
+</script>
+</body></html>
